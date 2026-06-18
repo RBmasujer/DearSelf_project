@@ -1,0 +1,213 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#F5F0EB;
+}
+
+/* Header */
+
+header{
+    background:#d9d1d1;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 20px;
+}
+
+.logo{
+    font-size:40px;
+    font-weight:bold;
+}
+
+nav{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+nav a{
+    text-decoration:none;
+    color:#222;
+}
+
+.profile img{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    border:1px solid #888;
+}
+
+/* Layout */
+
+.container{
+    display:flex;
+    min-height:calc(100vh - 70px);
+}
+
+/* Sidebar */
+
+.sidebar{
+    width:230px;
+    background:#e9e2e2;
+    padding:20px 15px;
+}
+
+.sidebar button{
+    width:100%;
+    margin-bottom:22px;
+    border:none;
+    border-radius:30px;
+    padding:14px;
+    background:black;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.active-light{
+    background:white !important;
+    color:black !important;
+    border:1px solid #ccc;
+}
+
+/* Content */
+
+.content{
+    flex:1;
+    background:white;
+    padding:25px;
+}
+
+.content h1{
+    text-align:center;
+    font-size:50px;
+    margin-bottom:40px;
+}
+
+/* Toolbar */
+
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.actions{
+    display:flex;
+    gap:15px;
+}
+
+.edit-btn,
+.delete-btn{
+    padding:10px 25px;
+    border:none;
+    background:#d8d0d0;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.search-box input{
+    width:220px;
+    padding:10px;
+    border:none;
+    background:#ddd3d3;
+    border-radius:6px;
+}
+
+/* Table */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,
+td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#f3f3f3;
+}
+
+tbody tr:hover{
+    background:#f8f8f8;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+  }
+
+  .logo {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+  }
+
+  .sidebar button {
+    width: 45%;
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .content {
+    padding: 15px;
+  }
+
+  .content h1 {
+    font-size: 32px;
+    margin-bottom: 25px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .actions {
+    justify-content: center;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  table {
+    font-size: 14px;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+}

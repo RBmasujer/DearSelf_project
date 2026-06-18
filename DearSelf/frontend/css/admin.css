@@ -1,0 +1,196 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f3f3f3;
+}
+
+/* HEADER */
+
+header{
+    height:80px;
+    background:#d8d0d0; /* retained from image */
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 25px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.logo{
+    font-size:42px;
+    font-weight:900;
+}
+
+nav{
+    display:flex;
+    align-items:center;
+    gap:30px;
+}
+
+nav a{
+    text-decoration:none;
+    color:#222;
+    font-size:18px;
+}
+
+nav a:hover{
+    font-weight:bold;
+}
+
+.profile img{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+}
+
+/* LAYOUT */
+
+.container{
+    display:flex;
+    min-height:calc(100vh - 80px);
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:260px;
+    padding:20px;
+    background:#e8e0e0;
+}
+
+.menu{
+    width:100%;
+    border:none;
+    padding:15px;
+    border-radius:30px;
+    margin-bottom:20px;
+    background:black;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+    transition:.3s;
+}
+
+.menu:hover{
+    transform:translateY(-2px);
+}
+
+.active{
+    background:white;
+    color:black;
+}
+
+/* CONTENT */
+
+.content{
+    flex:1;
+    padding:30px;
+}
+
+.content h1{
+    text-align:center;
+    margin-bottom:40px;
+    font-size:48px;
+}
+
+.toolbar{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:20px;
+}
+
+.actions button{
+    padding:10px 25px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    margin-right:10px;
+}
+
+.edit-btn{
+    background:#d8d0d0;
+}
+
+.delete-btn{
+    background:#d8d0d0;
+}
+
+.search-box{
+    background:#d8d0d0;
+    border-radius:8px;
+    padding:10px;
+    display:flex;
+    align-items:center;
+    width:300px;
+}
+
+.search-box input{
+    border:none;
+    background:none;
+    width:100%;
+    padding-left:10px;
+    outline:none;
+}
+
+/* TABLE */
+
+.table-container{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+thead{
+    background:#f1f1f1;
+}
+
+th,td{
+    padding:14px;
+    text-align:left;
+}
+
+tbody tr{
+    border-bottom:1px solid #ddd;
+}
+
+tbody tr:hover{
+    background:#f7f7f7;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .container{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+    }
+
+    .toolbar{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .search-box{
+        width:100%;
+    }
+
+    .content h1{
+        font-size:32px;
+    }
+}

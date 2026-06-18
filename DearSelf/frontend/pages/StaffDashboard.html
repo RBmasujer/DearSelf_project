@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dear Self - Staff Dashboard</title>
+
+    <link rel="stylesheet" href="../css/staff.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="main-header">
+
+    <div class="logo">
+        Dear Self
+    </div>
+
+    <nav class="top-nav">
+        <a href="#">Feedback</a>
+        <a href="#">Contact Us</a>
+        <a href="#">About Us</a>
+        <a href="#">Home</a>
+
+                    <div class="profile">
+                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="profile">
+            </div>
+    </nav>
+
+</header>
+
+<div class="dashboard">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <button class="menu-btn active">
+            View Booking Record
+        </button>
+
+        <button class="menu-btn">
+            View Feedback
+        </button>
+
+        <button class="menu-btn">
+            View Payment Record
+        </button>
+
+        <button class="menu-btn">
+            Chat Room
+        </button>
+
+    </aside>
+
+    <!-- Content -->
+    <main class="content">
+
+        <div class="toolbar">
+
+            <span>Customer for Today!</span>
+
+            <div>
+                <input type="date">
+                <input type="text"
+                       id="searchInput"
+                       placeholder="Search Customer">
+            </div>
+
+        </div>
+
+        <table id="customerTable">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Services</th>
+                    <th>Promos</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>12345</td>
+                    <td>Rosa Mallister</td>
+                    <td>Pedicure and Hair</td>
+                    <td>NA</td>
+                </tr>
+
+                <tr>
+                    <td>67890</td>
+                    <td>Cirilla Meller</td>
+                    <td>Manicure and Hair</td>
+                    <td>Mother's Day Special (B)</td>
+                </tr>
+
+                <tr>
+                    <td>33312</td>
+                    <td>Laura Jones</td>
+                    <td>Massage and Hair</td>
+                    <td>NA</td>
+                </tr>
+
+                <tr>
+                    <td>76543</td>
+                    <td>Janette Clyne</td>
+                    <td>Massage, Hair and Nails</td>
+                    <td>Mother's Day Special (A)</td>
+                </tr>
+
+                <tr>
+                    <td>32321</td>
+                    <td>Claire Baron</td>
+                    <td>Hair and Massage</td>
+                    <td>NA</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </main>
+
+</div>
+
+<script src="../js/script.js"></script>
+
+</body>

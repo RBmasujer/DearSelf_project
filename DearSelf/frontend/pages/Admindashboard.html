@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dear Self - Admin Dashboard</title>
+
+<link rel="stylesheet" href="../css/admin.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+<body>
+
+<header>
+
+    <div class="logo">
+        Dear Self
+    </div>
+
+    <nav>
+        <a href="#">Contact Us</a>
+        <a href="#">About Us</a>
+        <a href="#">Home</a>
+
+            <div class="profile">
+                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="profile">
+            </div>
+    </nav>
+
+</header>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <button class="menu active">
+            View Booking Record
+        </button>
+
+        <button class="menu">
+            View Payment Record
+        </button>
+
+        <button class="menu">
+            View Feedback
+        </button>
+
+        <button class="menu">
+            View Employee Status
+        </button>
+
+        <button class="menu">
+            Post Promos
+        </button>
+
+        <button class="menu">
+            Chat Room
+        </button>
+
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content">
+
+        <div class="toolbar">
+
+            <div class="actions">
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </div>
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search booking...">
+
+            </div>
+
+        </div>
+
+        <div class="table-container">
+
+            <table id="bookingTable">
+
+                <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact No.</th>
+                    <th>Date</th>
+                    <th>Payment</th>
+                    <th>Services</th>
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                <tr>
+                    <td>12345</td>
+                    <td>Rosa Mallister</td>
+                    <td>rm12@gmail.com</td>
+                    <td>9515251721</td>
+                    <td>06/21/2026</td>
+                    <td>Online</td>
+                    <td>Pedicure and Hair</td>
+                </tr>
+
+                <tr>
+                    <td>67890</td>
+                    <td>Cirilla Meller</td>
+                    <td>cirimeller@gmail.com</td>
+                    <td>9126643178</td>
+                    <td>06/21/2026</td>
+                    <td>Onsite</td>
+                    <td>Manicure and Hair</td>
+                </tr>
+
+                <tr>
+                    <td>33312</td>
+                    <td>Laura Jones</td>
+                    <td>lj123@gmail.com</td>
+                    <td>9876554322</td>
+                    <td>06/17/2026</td>
+                    <td>Online</td>
+                    <td>Massage and Hair</td>
+                </tr>
+
+                <tr>
+                    <td>76543</td>
+                    <td>Janette Clyne</td>
+                    <td>msjanette@gmail.com</td>
+                    <td>9553216847</td>
+                    <td>06/20/2026</td>
+                    <td>Online</td>
+                    <td>Massage, Hair and Nails</td>
+                </tr>
+
+                <tr>
+                    <td>32321</td>
+                    <td>Claire Baron</td>
+                    <td>clairebaron07@gmail.com</td>
+                    <td>9757402236</td>
+                    <td>06/23/2026</td>
+                    <td>Onsite</td>
+                    <td>Hair and Massage</td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>
