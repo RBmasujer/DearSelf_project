@@ -5,7 +5,13 @@
   "main": "backend/server.js",
   "scripts": {
     "start": "node backend/server.js",
-    "dev": "node backend/server.js"
+    "dev": "node backend/server.js",
+    "test": "jest --config tests/jest.config.json",
+    "test:watch": "jest --config tests/jest.config.json --watch",
+    "test:coverage": "jest --config tests/jest.config.json --coverage",
+    "test:auth": "jest --config tests/jest.config.json tests/auth.test.js",
+    "test:payment": "jest --config tests/jest.config.json tests/payment.test.js",
+    "test:api": "jest --config tests/jest.config.json tests/api.test.js"
   },
   "keywords": ["salon", "spa", "booking", "management"],
   "author": "",
@@ -16,5 +22,9 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   }
 }

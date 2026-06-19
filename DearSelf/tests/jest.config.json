@@ -1,0 +1,18 @@
+{
+  "testEnvironment": "jsdom",
+  "testMatch": ["**/*.test.js"],
+  "moduleFileExtensions": ["js", "json"],
+  "collectCoverage": true,
+  "coverageDirectory": "coverage",
+  "coverageReporters": ["text", "lcov", "html"],
+  "coveragePathIgnorePatterns": ["/node_modules/", "/tests/"],
+  "setupFilesAfterEnv": ["<rootDir>/setup.js"],
+  "verbose": true,
+  "testTimeout": 10000,
+  "moduleNameMapper": {
+    "^(\\.{1,2}/.*)\\.js$": "$1"
+  },
+  "globals": {
+    "jest": true
+  }
+}
