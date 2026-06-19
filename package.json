@@ -1,5 +1,14 @@
 {
-  "dependencies": {
-    "node": "^26.3.1"
-  }
+  "name": "dearself-project",
+  "version": "1.0.0",
+  "description": "Dear Self Nail, Spa & Salon Management System",
+  "scripts": {
+    "start": "cd DearSelf && npm start",
+    "dev": "cd DearSelf && npm run dev",
+    "test": "cd DearSelf && npm test",
+    "install:all": "cd DearSelf && npm install"
+  },
+  "keywords": ["salon", "spa", "booking"],
+  "author": "",
+  "license": "ISC"
 }

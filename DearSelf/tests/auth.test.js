@@ -23,14 +23,13 @@ global.localStorage = localStorageMock;
 // Mock fetch
 global.fetch = jest.fn();
 
-// Import auth module functions (adjust path as needed)
-const {
-    AuthManager,
-    ROLES,
-    ROLE_PERMISSIONS,
-    DASHBOARD_ROUTES,
-    STORAGE_KEYS
-} = require('./auth.js');
+// Import auth module functions from frontend/javascript
+const authModule = require('../frontend/javascript/auth.js');
+const AuthManager = authModule.AuthManager;
+const ROLES = authModule.ROLES;
+const ROLE_PERMISSIONS = authModule.ROLE_PERMISSIONS;
+const DASHBOARD_ROUTES = authModule.DASHBOARD_ROUTES;
+const STORAGE_KEYS = authModule.STORAGE_KEYS;
 
 describe('AuthManager', () => {
     let auth;
@@ -254,14 +253,16 @@ describe('AuthManager', () => {
         });
 
         test('should redirect if role not allowed', () => {
-            auth.currentUser = { id: '1', role: 'customer' };
+            const mockUser = { id: '1', role: 'customer' };
+            auth.saveUser(mockUser); // Use saveUser to properly set authentication state
             const result = auth.protectPage(['admin', 'staff']);
 
             expect(result).toBe(false);
         });
 
         test('should allow access if role is allowed', () => {
-            auth.currentUser = { id: '1', role: 'admin' };
+            const mockUser = { id: '1', role: 'admin' };
+            auth.saveUser(mockUser); // Use saveUser to properly set authentication state
             const result = auth.protectPage(['admin', 'staff']);
 
             expect(result).toBe(true);

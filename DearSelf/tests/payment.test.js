@@ -9,16 +9,15 @@ global.fetch = jest.fn();
 // Mock btoa
 global.btoa = jest.fn((str) => Buffer.from(str, 'binary').toString('base64'));
 
-// Import payment module functions
-const {
-    PaymentManager,
-    PAYMENT_METHODS,
-    PAYMENT_METHOD_LABELS,
-    PAYMENT_STATUS,
-    formatAmount,
-    getPaymentMethodLabel,
-    getPaymentStatusBadge
-} = require('./payment.js');
+// Import payment module functions from frontend/javascript
+const paymentModule = require('../frontend/javascript/payment.js');
+const PaymentManager = paymentModule.PaymentManager;
+const PAYMENT_METHODS = paymentModule.PAYMENT_METHODS;
+const PAYMENT_METHOD_LABELS = paymentModule.PAYMENT_METHOD_LABELS;
+const PAYMENT_STATUS = paymentModule.PAYMENT_STATUS;
+const formatAmount = paymentModule.formatAmount;
+const getPaymentMethodLabel = paymentModule.getPaymentMethodLabel;
+const getPaymentStatusBadge = paymentModule.getPaymentStatusBadge;
 
 describe('PaymentManager', () => {
     let paymentManager;
