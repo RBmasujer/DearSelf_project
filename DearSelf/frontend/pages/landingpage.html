@@ -3,826 +3,1091 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css">
     <title>Dear Self - Nail, Spa & Salon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- CSS RESET & ROOT VARIABLES --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --cream: #faf6f0;
+            --champagne: #f5ebe0;
+            --sand: #e8ddd4;
+            --gold: #c5a880;
+            --gold-dark: #a88b5a;
+            --espresso: #2a2421;
+            --charcoal: #3d3a38;
+            --sage: #9caf88;
         }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body {
-            background-color: #fcfcfc;
-            color: #333;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--espresso);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background-color: #e8ded9;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 0;
-            border-right: 0;
-            border-left: 0;
-            padding: 15px 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            margin-left: 0;
-            font-size: 32px;
-            font-weight: 900;
-            letter-spacing: -1px;
-            color: #000;
-            cursor: pointer;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #333;
-        }
-
-        nav {
-            display: flex;
-            align-items: center;
-            margin-left: auto;
-            gap: 20px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #333;
-            margin-left: 0;
-            font-size: 16px;
-            font-weight: 500;
-            transition: color 0.2s;
-            cursor: pointer;
-        }
-
-        nav a:hover, nav a.active {
-            color: #000;
-            font-weight: 700;
-        }
-        
-        nav a.active {
-            text-decoration: underline;
-        }
-
-        /* Responsive Navigation */
-        @media (max-width: 768px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            nav {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: #e8ded9;
-                padding: 20px 0;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            }
-            
-            nav.show-mobile {
-                display: flex;
-            }
-
-            nav a {
-                margin: 15px 0;
-                font-size: 18px;
-            }
-        }
-
-        /* --- DYNAMIC VIEWS WRAPPER --- */
-        .view-section {
-            display: none;
-            padding: 40px 20px;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .view-section.active-view {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- VIEW 1: HOME / LANDING PAGE --- */
-        .hero-text {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .hero-text h1 {
-            font-size: 36px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .hero-text p {
-            font-size: 18px;
-            color: #666;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 10px;
-        }
-
-        .service-card {
-            background-size: cover;
-            background-position: center;
-            background-color: #ddd; /* Fallback color */
-            height: 380px;
-            border-radius: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            padding-bottom: 25px;
-            transition: transform 0.3s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .img-nails { background-image: url('../../res/images/nails.jpg'); }
-        .img-spa { background-image: url('../../res/images/massage.jpg'); }
-        .img-salon { background-image: url('../../res/images/hair.jpg'); }
-        .img-promo { background-image: url('../../res/images/promo.jpg'); }
-
-        .btn-black {
-            background-color: #000;
-            color: #fff;
-            border: none;
-            padding: 12px 35px;
-            font-size: 15px;
-            font-weight: 600;
-            border-radius: 25px;
-            cursor: pointer;
-            width: 80%;
-            text-align: center;
-            transition: background-color 0.2s;
-        }
-
-        .btn-black:hover {
-            background-color: #222;
-        }
-
-        /* --- VIEW 2: ABOUT US DETAILS --- */
-        .about-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .about-container h2 {
-            font-size: 36px;
-            margin-bottom: 30px;
-        }
-
-        .about-p {
-            font-size: 16px;
             line-height: 1.6;
-            color: #333;
-            margin-bottom: 40px;
-            text-align: justify;
         }
 
-        .about-sub-section {
-            margin-bottom: 35px;
-        }
-
-        .about-sub-section h3 {
-            font-size: 24px;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .about-sub-section p {
-            font-size: 16px;
-            line-height: 1.5;
-            color: #444;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* --- VIEW 3: CUSTOMER BOOKING SPLIT VIEW --- */
-        .booking-split-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        }
-
-        @media (min-width: 850px) {
-            .booking-split-container {
-                grid-template-columns: 1.2fr 1fr;
-            }
-        }
-
-        .booking-form-side {
-            padding: 40px;
-        }
-
-        .booking-form-side h2 {
-            font-size: 24px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .booking-fields-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 600px) {
-            .booking-fields-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .input-tinted {
-            width: 100%;
-            padding: 14px;
-            background-color: #e6deda;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            outline: none;
-        }
-
-        .select-wrapper {
-            position: relative;
-        }
-
-        .select-wrapper::after {
-            content: '▼';
-            font-size: 12px;
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            color: #444;
-        }
-
-        select.input-tinted {
-            appearance: none;
-            cursor: pointer;
-        }
-
-        .password-container {
-            position: relative;
-        }
-
-        .eye-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .booking-promo-side {
-            background: linear-gradient(180deg, #cceeff 0%, #b3e0ff 60%, #7bc404 60%, #68a403 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            color: #333;
-            text-align: center;
-            min-height: 400px;
-            position: relative;
-        }
-
-        .promo-graphic-box {
-            background-color: rgba(255, 255, 255, 0.7);
-            padding: 30px;
-            border-radius: 15px;
-            font-weight: 600;
-            font-size: 18px;
-            border: 2px dashed #666;
-        }
-
-        .slider-dots {
-            position: absolute;
-            bottom: 20px;
-            letter-spacing: 4px;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .modal-overlay {
+        /* Header */
+        .header {
             position: fixed;
             top: 0;
             left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+        .header.scrolled {
+            background: rgba(250, 246, 240, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(42, 36, 33, 0.08);
+            padding: 15px 50px;
+        }
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .logo:hover { color: var(--gold); }
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--charcoal);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+        .nav-menu a:hover { color: var(--gold); }
+        .nav-menu a:hover::after { width: 100%; }
+        .nav-menu a.active { color: var(--gold); }
+        .nav-menu a.active::after { width: 100%; }
+        .btn-login {
+            background: var(--espresso);
+            color: #fff;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-login:hover {
+            background: var(--gold);
+            transform: translateY(-2px);
+        }
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+        }
+        .mobile-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--espresso);
+            transition: all 0.3s;
+        }
+
+        /* View Sections */
+        .view-section {
+            display: none;
+            animation: slideUp 0.6s ease;
+        }
+        .view-section.active-view { display: block; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero */
+        .hero-section {
+            min-height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, var(--champagne), var(--sand));
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            margin-bottom: 30px;
+        }
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(42px, 6vw, 72px);
+            font-weight: 400;
+            font-style: italic;
+            max-width: 800px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--charcoal);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+        }
+        .hero-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 0 auto 50px;
+        }
+
+        /* Services Grid */
+        .services-section {
+            padding: 80px 40px;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--champagne) 100%);
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .service-card {
+            position: relative;
+            height: 450px;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(42, 36, 33, 0.2);
+        }
+        .service-card-img {
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.85);
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+        .service-card:hover .service-card-img { transform: scale(1.08); }
+        .service-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(42, 36, 33, 0.9) 0%, rgba(42, 36, 33, 0.3) 50%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px;
+        }
+        .service-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .service-card-category {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+        .btn-book {
+            display: inline-block;
+            background: #fff;
+            color: var(--espresso);
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-book:hover {
+            background: var(--gold);
+            color: #fff;
+        }
+
+        /* About */
+        .about-section {
+            padding: 100px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .about-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 48px;
+            margin-bottom: 40px;
+        }
+        .about-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--charcoal);
+            margin-bottom: 50px;
+            text-align: justify;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .about-item {
+            padding: 40px;
+            background: linear-gradient(135deg, var(--champagne), #fff);
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+        .about-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(42, 36, 33, 0.12);
+        }
+        .about-item h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: var(--gold-dark);
+        }
+        .about-item p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--charcoal);
+        }
+
+        /* Booking Section */
+        .booking-section {
+            padding: 80px 40px;
+            background: #fff;
+        }
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(42, 36, 33, 0.12);
+        }
+        .booking-form-side {
+            padding: 60px;
+            background: #fff;
+        }
+        .booking-form-side h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .booking-form-side .subtitle {
+            text-align: center;
+            color: var(--charcoal);
+            margin-bottom: 40px;
+            font-size: 14px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-group { margin-bottom: 0; }
+        .form-group.full-width { grid-column: span 2; }
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            background: var(--champagne);
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--gold);
+        }
+        select.form-input {
+            appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233d3a38' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+        }
+        .password-wrapper { position: relative; }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--charcoal);
+        }
+        .btn-submit-booking {
+            grid-column: span 2;
+            background: var(--espresso);
+            color: #fff;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            width: 100%;
+        }
+        .btn-submit-booking:hover {
+            background: var(--gold);
+            transform: translateY(-2px);
+        }
+        .booking-promo-side {
+            background: linear-gradient(180deg, #e8f4f8 0%, #cce5ed 50%, var(--sage) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            text-align: center;
+        }
+        .promo-box {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 400px;
+        }
+        .promo-box h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: var(--espresso);
+        }
+        .promo-box p { color: var(--charcoal); font-size: 14px; }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(42, 36, 33, 0.5);
+            backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 2000;
             opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
+            visibility: hidden;
+            transition: all 0.3s;
             padding: 20px;
         }
-
-        .modal-overlay.modal-active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
+        .modal-overlay.modal-active { opacity: 1; visibility: visible; }
         .modal-box {
-            background-color: #e6deda;
+            background: linear-gradient(135deg, var(--champagne), #fff);
             border-radius: 24px;
+            max-width: 450px;
             width: 100%;
-            max-width: 460px;
-            padding: 35px 30px;
+            padding: 50px 40px;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+            box-shadow: 0 25px 60px rgba(42, 36, 33, 0.25);
         }
-
-        .modal-box.wide {
-            max-width: 760px;
-        }
-
-        .close-x {
+        .modal-box.wide { max-width: 800px; }
+        .modal-overlay.modal-active .modal-box { transform: scale(1); }
+        .modal-close {
             position: absolute;
             top: 20px;
-            right: 20px;
-            font-size: 26px;
+            right: 25px;
+            font-size: 28px;
             cursor: pointer;
+            color: var(--charcoal);
             background: none;
             border: none;
-            font-weight: bold;
+            transition: all 0.3s;
         }
-
-        .modal-h2 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 25px;
-        }
-
-        .form-block {
-            margin-bottom: 16px;
-            position: relative;
-        }
-
-        .input-white {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #fff;
-            border-radius: 8px;
-            background-color: #fff;
-            font-size: 15px;
-            outline: none;
-        }
-
-        .btn-submit-white {
-            background-color: #fff;
-            color: #000;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            max-width: 240px;
-            border-radius: 25px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            margin: 15px 0 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: background-color 0.2s;
-        }
-
-        .btn-submit-white:hover {
-            background-color: #f3f3f3;
-        }
-
-        .modal-lnk {
-            display: block;
-            margin-top: 10px;
-            color: #333;
-            text-decoration: none;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .modal-lnk:hover {
-            text-decoration: underline;
-        }
-
-        /* --- REGISTRATION SPLIT LAYOUT & CALENDAR --- */
-        .reg-split-layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
-        }
-
-        @media (min-width: 650px) {
-            .reg-split-layout {
-                grid-template-columns: 1fr 1fr;
-                text-align: left;
-            }
-        }
-
-        .calendar-ui {
-            background-color: #fff;
-            border-radius: 12px;
-            padding: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-
-        .calendar-top-bar {
-            background-color: #fff;
-            color: #000000;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            border: 1px solid #eee;
+        .modal-close:hover { color: var(--gold); transform: rotate(90deg); }
+        .modal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
             text-align: center;
+            margin-bottom: 30px;
         }
-
-        .calendar-months-nav {
-            display: flex;
-            justify-content: space-between;
-            color: black;
-            font-weight: bold;
-            margin-bottom: 10px;
+        .modal-form .form-group { margin-bottom: 18px; }
+        .modal-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--sand);
+            border-radius: 10px;
             font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            background: #fff;
+            transition: all 0.3s;
         }
+        .modal-input:focus { outline: none; border-color: var(--gold); }
+        .btn-modal-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--espresso);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+        .btn-modal-submit:hover { background: var(--gold); }
+        .modal-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--charcoal);
+            font-size: 13px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .modal-link:hover { color: var(--gold); }
 
-        .calendar-days-grid {
+        /* Registration Layout */
+        .reg-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        .calendar-widget {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(42, 36, 33, 0.08);
+        }
+        .calendar-header {
+            text-align: center;
+            padding: 15px;
+            background: var(--espresso);
+            color: #fff;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            font-size: 11px;
+            gap: 4px;
+        }
+        .calendar-day-label {
             text-align: center;
-        }
-
-        .cal-day-label {
-            color: black;
+            font-size: 11px;
             font-weight: 600;
-            margin-bottom: 5px;
+            color: var(--charcoal);
+            padding: 8px 0;
         }
-
-        .cal-date-cell {
-            padding: 6px 0;
-            color: #333333;
-            font-weight: 500;
-            background-color: #dbe8ee;
-            border-radius: 4px;
+        .calendar-cell {
+            text-align: center;
+            padding: 10px 0;
+            font-size: 13px;
+            background: var(--champagne);
+            border-radius: 6px;
             cursor: pointer;
+            transition: all 0.3s;
+        }
+        .calendar-cell:hover { background: var(--gold); color: #fff; }
+        .calendar-cell.selected { background: var(--gold); color: #fff; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--espresso);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-size: 14px;
+            z-index: 3000;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 30px rgba(42, 36, 33, 0.2);
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* Footer */
+        .footer {
+            background: var(--espresso);
+            color: var(--sand);
+            padding: 60px 40px 30px;
+            margin-top: 80px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+        }
+        .footer-col h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+        .footer-col a {
+            display: block;
+            color: var(--sand);
+            text-decoration: none;
+            font-size: 13px;
+            margin-bottom: 12px;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover { color: var(--gold); }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
         }
 
-        .cal-date-cell.inactive-month {
-            background-color: #e0e0e0;
-            color: #999;
+        /* Responsive */
+        @media (max-width: 900px) {
+            .header { padding: 15px 25px; }
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(250, 246, 240, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 30px 0;
+                gap: 20px;
+                box-shadow: 0 5px 20px rgba(42, 36, 33, 0.1);
+            }
+            .nav-menu.show-mobile { display: flex; }
+            .mobile-toggle { display: flex; }
+            .booking-container { grid-template-columns: 1fr; }
+            .booking-promo-side { padding: 40px; }
+            .reg-layout { grid-template-columns: 1fr; }
+            .modal-box.wide { max-width: 450px; }
         }
-
-        .cal-date-cell:hover:not(.inactive-month) {
-            background-color: white;
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
+            .btn-submit-booking { grid-column: span 1; }
+            .service-card { height: 350px; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo" onclick="switchView('home-view', 'home-nav')">Dear Self</div>
-        <i class="fa-solid fa-bars mobile-menu-btn" onclick="toggleMobileMenu()"></i>
-        <nav id="navbar">
-            <a id="feedback-nav" onclick="switchView('home-view', 'feedback-nav')">Feedback</a>
-            <a id="contact-nav" onclick="switchView('home-view', 'contact-nav')">Contact Us</a>
-            <a id="about-nav" onclick="switchView('about-view', 'about-nav')">About Us</a>
-            <a id="home-nav" class="active" onclick="switchView('home-view', 'home-nav')">Home</a>
-            <a id="login-nav-trigger">Log In</a>
-        </nav>
-    </header>
+<header class="header" id="main-header">
+    <div class="logo" onclick="switchView('home-view', 'home-nav')">Dear Self</div>
+    <div class="mobile-toggle" onclick="toggleMobileMenu()">
+        <span></span><span></span><span></span>
+    </div>
+    <nav class="nav-menu" id="navbar">
+        <a id="feedback-nav" onclick="switchView('home-view', 'feedback-nav')">Feedback</a>
+        <a id="contact-nav" onclick="switchView('home-view', 'contact-nav')">Contact</a>
+        <a id="about-nav" onclick="switchView('about-view', 'about-nav')">About</a>
+        <a id="home-nav" class="active" onclick="switchView('home-view', 'home-nav')">Home</a>
+        <button class="btn-login" id="login-trigger">Login</button>
+    </nav>
+</header>
 
-    <main>
-        
-        <section id="home-view" class="view-section active-view">
-            <div class="hero-text">
-                <h1>Nurture your Natural Beauty</h1>
-                <p>Welcome to Dear Self</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card img-nails">
-                    <button class="btn-black" onclick="switchView('booking-view')">Book Now!</button>
-                </div>
-                <div class="service-card img-spa">
-                    <button class="btn-black" onclick="switchView('booking-view')">Book Now!</button>
-                </div>
-                <div class="service-card img-salon">
-                    <button class="btn-black" onclick="switchView('booking-view')">Book Now!</button>
-                </div>
-                <div class="service-card img-promo">
-                    <button class="btn-black" onclick="switchView('booking-view')">Book Now!</button>
-                </div>
-            </div>
-        </section>
+<main class="main-content" style="padding-top: 100px;">
 
-        <section id="about-view" class="view-section">
-            <div class="about-container">
-                <h2>About Us Details</h2>
-                <p class="about-p">
-                    Dear Self Nail, Spa & Salon is a service-oriented business that provides beauty, wellness, and relaxation treatments to clients. Its services may include hair styling, hair treatments, manicures, pedicures, facials, massages, body treatments, and other personal care services. The primary goal of a salon and spa is to enhance customers' appearance, promote relaxation, and improve overall well-being through professional and high-quality services. To ensure customer satisfaction, the business continuously evaluates the quality of its services by gathering customer feedback, monitoring staff performance, maintaining cleanliness and safety standards, and improving service efficiency through modern technologies such as online reservation systems.
-                </p>
-                <div class="about-sub-section">
+    <!-- Home View -->
+    <section id="home-view" class="view-section active-view">
+        <div class="hero-section">
+            <span class="hero-badge">Welcome to</span>
+            <h1 class="hero-title">Nurture Your Natural Beauty</h1>
+            <p class="hero-subtitle">Experience tranquility and transformation at Dear Self. Where every touch is a journey to your best self.</p>
+            <div class="hero-divider"></div>
+        </div>
+        <div class="services-section">
+            <div class="services-grid" id="services-grid">
+                <div class="service-card">
+                    <img class="service-card-img" src="../../res/images/nails.jpg" alt="Nails">
+                    <div class="service-card-overlay">
+                        <h3 class="service-card-title">Nail Artistry</h3>
+                        <p class="service-card-category">NAILS</p>
+                        <button class="btn-book" onclick="switchView('booking-view')">Book Now</button>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <img class="service-card-img" src="../../res/images/massage.jpg" alt="Spa">
+                    <div class="service-card-overlay">
+                        <h3 class="service-card-title">Spa & Wellness</h3>
+                        <p class="service-card-category">SPA</p>
+                        <button class="btn-book" onclick="switchView('booking-view')">Book Now</button>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <img class="service-card-img" src="../../res/images/hair.jpg" alt="Salon">
+                    <div class="service-card-overlay">
+                        <h3 class="service-card-title">Hair Salon</h3>
+                        <p class="service-card-category">SALON</p>
+                        <button class="btn-book" onclick="switchView('booking-view')">Book Now</button>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <img class="service-card-img" src="../../res/images/promo.jpg" alt="Promo">
+                    <div class="service-card-overlay">
+                        <h3 class="service-card-title">Special Promos</h3>
+                        <p class="service-card-category">OFFERS</p>
+                        <button class="btn-book" onclick="switchView('booking-view')">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About View -->
+    <section id="about-view" class="view-section">
+        <div class="about-section">
+            <h2 class="about-title">Our Story</h2>
+            <p class="about-text">Dear Self Nail, Spa & Salon is a sanctuary dedicated to enhancing beauty, promoting wellness, and providing a transformative experience for each guest. Our skilled professionals combine artistry with care, using premium products in an environment designed for pure relaxation.</p>
+            <div class="about-grid">
+                <div class="about-item">
                     <h3>Our Mission</h3>
-                    <p>To provide exceptional beauty and wellness services through skilled professionals, high-quality products, and a relaxing environment that promotes customer satisfaction, confidence, and well-being.</p>
+                    <p>To deliver exceptional beauty and wellness services that inspire confidence, promote relaxation, and enhance the natural beauty of every client through expertise, innovation, and genuine care.</p>
                 </div>
-                <div class="about-sub-section">
+                <div class="about-item">
                     <h3>Our Vision</h3>
-                    <p>To become a trusted and leading salon and spa recognized for excellence in beauty care, customer service, innovation, and commitment to enhancing the quality of life of every client.</p>
+                    <p>To be the leading destination for beauty and wellness, recognized for excellence, innovation, and our commitment to making every visit a transformative experience.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="booking-view" class="view-section">
-            <div class="booking-split-container">
+    <!-- Booking View -->
+    <section id="booking-view" class="view-section">
+        <div class="booking-section">
+            <div class="booking-container">
                 <div class="booking-form-side">
-                    <h2>Nurture your Natural Beauty</h2>
-                    <form onsubmit="handleGlobalSubmit(event)">
-                        <div class="booking-fields-grid">
-                            <div class="form-block"><input type="text" class="input-tinted" placeholder="Name" required></div>
-                            <div class="form-block select-wrapper">
-                                <select class="input-tinted" required>
-                                    <option value="" disabled selected>Service 1</option>
-                                    <option>Manicure & Pedicure</option>
-                                    <option>Body Wellness Massage</option>
-                                    <option>Hair Treatment Salon</option>
+                    <h2>Book Your Experience</h2>
+                    <p class="subtitle">Begin your journey to relaxation and beauty</p>
+                    <form id="booking-form" onsubmit="handleBookingSubmit(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <input type="text" class="form-input" name="name" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-input" name="service1" required>
+                                    <option value="" disabled selected>Primary Service</option>
+                                    <option value="nails">Classic Manicure - PHP 350</option>
+                                    <option value="nails2">Classic Pedicure - PHP 450</option>
+                                    <option value="spa">Body Wellness Massage - PHP 800</option>
+                                    <option value="spa2">Aromatherapy Massage - PHP 950</option>
+                                    <option value="salon">Hair Treatment - PHP 600</option>
+                                    <option value="salon2">Haircut & Styling - PHP 400</option>
                                 </select>
                             </div>
-                            <div class="form-block"><input type="email" class="input-tinted" placeholder="Email" required></div>
-                            <div class="form-block select-wrapper">
-                                <select class="input-tinted">
-                                    <option value="" disabled selected>Service 2</option>
-                                    <option>Foot Spa</option>
-                                    <option>Facial Cleansing</option>
+                            <div class="form-group">
+                                <input type="email" class="form-input" name="email" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-input" name="service2">
+                                    <option value="" selected>Add-on Service (Optional)</option>
+                                    <option value="wellness">Facial Cleansing - PHP 700</option>
+                                    <option value="wellness2">Foot Spa - PHP 500</option>
                                 </select>
                             </div>
-                            <div class="form-block"><input type="text" class="input-tinted" placeholder="Contact No." required></div>
-                            <div class="form-block select-wrapper">
-                                <select class="input-tinted">
-                                    <option value="" disabled selected>Service 3</option>
-                                    <option>Aromatherapy</option>
-                                </select>
+                            <div class="form-group">
+                                <input type="tel" class="form-input" name="phone" placeholder="Contact Number" required>
                             </div>
-                            <div class="form-block password-container">
-                                <input type="password" class="input-tinted" placeholder="Password" id="book-pass" required>
-                                <span class="eye-icon" onclick="togglePasswordVisibility('book-pass', this)">
-                                    <i class="hgi hgi-stroke hgi-rounded hgi-eye-closed"></i>
-                                </span>
+                            <div class="form-group">
+                                <input type="date" class="form-input" name="date" required>
                             </div>
-                            <div class="form-block"><input type="text" class="input-tinted" placeholder="MM/DD/YYYY" onfocus="(this.type='date')" required></div>
-                            <div class="form-block password-container">
-                                <input type="password" class="input-tinted" placeholder="Confirm Password" id="book-pass-confirm" required>
-                                <span class="eye-icon" onclick="togglePasswordVisibility('book-pass-confirm', this)">
-                                    <i class="hgi hgi-stroke hgi-rounded hgi-eye-closed"></i>
-                                </span>
+                            <div class="form-group password-wrapper">
+                                <input type="password" class="form-input" name="password" id="booking-password" placeholder="Create Password" required>
+                                <span class="toggle-password" onclick="togglePassword('booking-password', this)"><i class="far fa-eye"></i></span>
                             </div>
-                        </div>
-                        <div style="text-align: left; margin-top: 20px;">
-                            <button type="submit" class="btn-black" style="width: 200px;">Register Now!</button>
+                            <div class="form-group password-wrapper">
+                                <input type="password" class="form-input" name="confirmPassword" id="booking-confirmpass" placeholder="Confirm Password" required>
+                                <span class="toggle-password" onclick="togglePassword('booking-confirmpass', this)"><i class="far fa-eye"></i></span>
+                            </div>
+                            <div class="form-group full-width">
+                                <textarea class="form-input" name="notes" placeholder="Special requests or notes" rows="3" style="resize: none;"></textarea>
+                            </div>
+                            <button type="submit" class="btn-submit-booking">Confirm Booking</button>
                         </div>
                     </form>
                 </div>
                 <div class="booking-promo-side">
-                    <div class="promo-graphic-box">
-                        Images of Promos/Services
+                    <div class="promo-box" id="promo-display">
+                        <h3>Current Promotions</h3>
+                        <p>First Visit Special: 20% off for first-time customers</p>
+                        <p style="margin-top: 15px; font-weight: 600; color: var(--gold-dark);">Valid until the end of the month</p>
                     </div>
-                    <div class="slider-dots">---------</div>
                 </div>
             </div>
-        </section>
-
-    </main>
-
-    <div class="modal-overlay" id="login-modal-element">
-        <div class="modal-box">
-            <button class="close-x" onclick="dismissAllModals()">&times;</button>
-            <div class="modal-h2">Log In</div>
-            <form onsubmit="handleGlobalSubmit(event)">
-                <div class="form-block"><input type="text" class="input-white" placeholder="Username" required></div>
-                <div class="form-block"><input type="email" class="input-white" placeholder="Email" required></div>
-                <div class="form-block password-container">
-                    <input type="password" class="input-white" placeholder="Password" id="login-pass" required>
-                    <span class="eye-icon" onclick="togglePasswordVisibility('login-pass', this)">
-                        <i class="hgi hgi-stroke hgi-rounded hgi-eye-closed"></i>
-                    </span>
-                </div>
-                <button type="submit" class="btn-submit-white">Log In</button>
-            </form>
-            <span class="modal-lnk">Forgot Password?</span>
-            <span class="modal-lnk" id="link-to-register">Doesn't have an Account?</span>
         </div>
-    </div>
+    </section>
 
-    <div class="modal-overlay" id="register-modal-element">
-        <div class="modal-box wide">
-            <button class="close-x" onclick="dismissAllModals()">&times;</button>
-            <div class="modal-h2">Register as Employee</div>
-            
-            <form onsubmit="handleGlobalSubmit(event)" class="reg-split-layout">
+</main>
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="login-modal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModals()">&times;</button>
+        <h2 class="modal-title">Welcome Back</h2>
+        <form class="modal-form" id="login-form" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <input type="email" class="modal-input" name="email" placeholder="Email address" required>
+            </div>
+            <div class="form-group password-wrapper">
+                <input type="password" class="modal-input" name="password" id="login-password" placeholder="Password" required>
+                <span class="toggle-password" onclick="togglePassword('login-password', this)"><i class="far fa-eye"></i></span>
+            </div>
+            <button type="submit" class="btn-modal-submit">Sign In</button>
+        </form>
+        <span class="modal-link" onclick="showRegisterModal()">Create an account</span>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal-overlay" id="register-modal">
+    <div class="modal-box wide">
+        <button class="modal-close" onclick="closeModals()">&times;</button>
+        <h2 class="modal-title">Join Our Team</h2>
+        <form class="modal-form" id="register-form" onsubmit="handleRegister(event)">
+            <div class="reg-layout">
                 <div>
-                    <div class="form-block"><input type="text" class="input-white" placeholder="Name" required></div>
-                    <div class="form-block"><input type="text" class="input-white" placeholder="Username" required></div>
-                    <div class="form-block"><input type="email" class="input-white" placeholder="Email" required></div>
-                    <div class="form-block"><input type="tel" class="input-white" placeholder="Contact No." required></div>
-                    <div class="form-block password-container">
-                        <input type="password" class="input-white" placeholder="Password" id="reg-pass" required>
-                        <span class="eye-icon" onclick="togglePasswordVisibility('reg-pass', this)">
-                            <i class="hgi hgi-stroke hgi-rounded hgi-eye-closed"></i>
-                        </span>
+                    <div class="form-group">
+                        <input type="text" class="modal-input" name="name" placeholder="Full Name" required>
                     </div>
-                    <div class="form-block password-container">
-                        <input type="password" class="input-white" placeholder="Confirm Password" id="reg-pass-confirm" required>
-                        <span class="eye-icon" onclick="togglePasswordVisibility('reg-pass-confirm', this)">
-                            <i class="hgi hgi-stroke hgi-rounded hgi-eye-closed"></i>
-                        </span>
+                    <div class="form-group">
+                        <input type="email" class="modal-input" name="email" placeholder="Email address" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" class="modal-input" name="phone" placeholder="Contact Number" required>
+                    </div>
+                    <div class="form-group password-wrapper">
+                        <input type="password" class="modal-input" name="password" id="reg-password" placeholder="Create Password" required>
+                        <span class="toggle-password" onclick="togglePassword('reg-password', this)"><i class="far fa-eye"></i></span>
+                    </div>
+                    <div class="form-group password-wrapper">
+                        <input type="password" class="modal-input" name="confirmPassword" id="reg-confirm-password" placeholder="Confirm Password" required>
+                        <span class="toggle-password" onclick="togglePassword('reg-confirm-password', this)"><i class="far fa-eye"></i></span>
+                    </div>
+                    <div class="form-group">
+                        <select name="role" class="modal-input" required>
+                            <option value="" disabled selected>Select Role</option>
+                            <option value="staff">Staff</option>
+                            <option value="receptionist">Receptionist</option>
+                        </select>
                     </div>
                 </div>
+                <div class="calendar-widget">
+                    <div class="calendar-header" id="calendar-month-year">June 2026</div>
+                    <div class="calendar-grid" id="calendar-grid">
+                        <div class="calendar-day-label">Sun</div><div class="calendar-day-label">Mon</div>
+                        <div class="calendar-day-label">Tue</div><div class="calendar-day-label">Wed</div>
+                        <div class="calendar-day-label">Thu</div><div class="calendar-day-label">Fri</div>
+                        <div class="calendar-day-label">Sat</div>
+                    </div>
+                    <input type="hidden" name="dayOff" id="selected-day-off">
+                    <p style="font-size: 12px; color: var(--charcoal); margin-top: 15px; text-align: center;">Select your preferred day off</p>
+                </div>
+            </div>
+            <button type="submit" class="btn-modal-submit">Create Account</button>
+        </form>
+        <span class="modal-link" onclick="showLoginModal()">Already have an account?</span>
+    </div>
+</div>
 
-                <div style="display: flex; flex-direction: column; justify-content: space-between;">
-                    <div class="calendar-ui">
-                        <div class="calendar-months-nav" id="calendar-header">
-                    </div>
-                        <div class="calendar-days-grid" id="calendar-grid">
-                        <div class="cal-day-label">Sun</div><div class="cal-day-label">Mon</div>
-                        <div class="cal-day-label">Tue</div><div class="cal-day-label">Wed</div>
-                        <div class="cal-day-label">Thu</div><div class="cal-day-label">Fri</div>
-                        <div class="cal-day-label">Sat</div>
-                    </div>
-                    </div>
-                    <input type="hidden" id="selected-day-off" name="dayOff">
-                    
-                    <div style="text-align: center;">
-                        <button type="submit" class="btn-submit-white" style="margin-top: 20px;">Register</button>
-                        <span class="modal-lnk" id="link-to-login">Already have an account!</span>
-                    </div>
-                </div>
-            </form>
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div class="footer-col">
+            <h4>Dear Self</h4>
+            <p style="font-size: 13px; line-height: 1.6;">Your sanctuary for beauty, wellness, and transformation.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Services</h4>
+            <a href="#">Nail Care</a>
+            <a href="#">Spa & Massage</a>
+            <a href="#">Hair Salon</a>
+            <a href="#">Wellness</a>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <a href="#" onclick="switchView('about-view', 'about-nav')">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Book Now</a>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <a href="mailto:hello@dearself.com">hello@dearself.com</a>
+            <a href="tel:+1234567890">+1 (234) 567-890</a>
         </div>
     </div>
+    <div class="footer-bottom">&copy; 2026 Dear Self Nail, Spa & Salon. All rights reserved.</div>
+</footer>
 
-    <script>
-        // Tab Navigation State Router
-        function switchView(viewId, navId) {
-            // Hide all layout containers
-            document.querySelectorAll('.view-section').forEach(view => {
-                view.classList.remove('active-view');
-            });
-            // Clear active navigation underlines
-            document.querySelectorAll('nav a').forEach(navLink => {
-                navLink.classList.remove('active');
-            });
+<script>
+    const API_URL = 'http://localhost:3000/api';
+    let currentUser = null;
 
-            // Display target container view
-            document.getElementById(viewId).classList.add('active-view');
-            
-            // Underline active element link if targeted
-            if (navId) {
-                document.getElementById(navId).classList.add('active');
-            }
-            
-            // Hide mobile menu after clicking a link
-            document.getElementById('navbar').classList.remove('show-mobile');
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCalendar();
+        setupScrollHeader();
+        const savedUser = localStorage.getItem('dearself_user');
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            updateUIForLoggedInUser();
         }
+    });
 
-        // Mobile Menu Toggle logic
-        function toggleMobileMenu() {
-            const navbar = document.getElementById('navbar');
-            navbar.classList.toggle('show-mobile');
-        }
-
-        // Modal Elements Management
-        const loginTrigger = document.getElementById('login-nav-trigger');
-        const loginModal = document.getElementById('login-modal-element');
-        const registerModal = document.getElementById('register-modal-element');
-        
-        const changeToRegister = document.getElementById('link-to-register');
-        const changeToLogin = document.getElementById('link-to-login');
-
-        loginTrigger.addEventListener('click', () => {
-            loginModal.classList.add('modal-active');
-            document.getElementById('navbar').classList.remove('show-mobile'); // Hide menu on modal trigger
-        });
-
-        changeToRegister.addEventListener('click', () => {
-            loginModal.classList.remove('modal-active');
-            registerModal.classList.add('modal-active');
-        });
-
-        changeToLogin.addEventListener('click', () => {
-            registerModal.classList.remove('modal-active');
-            loginModal.classList.add('modal-active');
-        });
-
-        function dismissAllModals() {
-            loginModal.classList.remove('modal-active');
-            registerModal.classList.remove('modal-active');
-        }
-
-        window.addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal-overlay')) {
-                dismissAllModals();
-            }
-        });
-
-        function togglePasswordVisibility(fieldTargetId, iconSpan) {
-            const field = document.getElementById(fieldTargetId);
-            const icon = iconSpan.querySelector('i');
-            
-            if (field.type === "password") {
-                field.type = "text";
-                icon.classList.remove('hgi-eye-closed');
-                icon.classList.add('hgi-eye-open');
+    function setupScrollHeader() {
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
             } else {
-                field.type = "password";
-                icon.classList.remove('hgi-eye-open');
-                icon.classList.add('hgi-eye-closed');
+                header.classList.remove('scrolled');
             }
+        });
+    }
+
+    function switchView(viewId, navId) {
+        document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active-view'));
+        document.querySelectorAll('.nav-menu a').forEach(n => n.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active-view');
+        if (navId) document.getElementById(navId).classList.add('active');
+        document.getElementById('navbar').classList.remove('show-mobile');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+        document.getElementById('navbar').classList.toggle('show-mobile');
+    }
+
+    function renderCalendar() {
+        const grid = document.getElementById('calendar-grid');
+        const header = document.getElementById('calendar-month-year');
+        const now = new Date();
+        header.textContent = `${now.toLocaleString('default', { month: 'long' })} ${now.getFullYear()}`;
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+        const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).getDay();
+        let html = '';
+        for (let i = 0; i < firstDay; i++) html += '<div></div>';
+        for (let day = 1; day <= daysInMonth; day++) {
+            html += `<div class="calendar-cell" onclick="selectDayOff(${day}, this)">${day}</div>`;
         }
+        grid.innerHTML = `<div class="calendar-day-label">Sun</div><div class="calendar-day-label">Mon</div><div class="calendar-day-label">Tue</div><div class="calendar-day-label">Wed</div><div class="calendar-day-label">Thu</div><div class="calendar-day-label">Fri</div><div class="calendar-day-label">Sat</div>` + html;
+    }
 
-        // Action confirmation notification
-        function handleGlobalSubmit(e) {
-            e.preventDefault();
-            alert("Action processed successfully!");
-            dismissAllModals();
+    function selectDayOff(day, element) {
+        document.querySelectorAll('.calendar-cell').forEach(c => c.classList.remove('selected'));
+        element.classList.add('selected');
+        document.getElementById('selected-day-off').value = day;
+    }
+
+    document.getElementById('login-trigger').addEventListener('click', () => {
+        document.getElementById('login-modal').classList.add('modal-active');
+    });
+
+    function showLoginModal() {
+        document.getElementById('register-modal').classList.remove('modal-active');
+        document.getElementById('login-modal').classList.add('modal-active');
+    }
+
+    function showRegisterModal() {
+        document.getElementById('login-modal').classList.remove('modal-active');
+        document.getElementById('register-modal').classList.add('modal-active');
+    }
+
+    function closeModals() {
+        document.getElementById('login-modal').classList.remove('modal-active');
+        document.getElementById('register-modal').classList.remove('modal-active');
+    }
+
+    window.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal-overlay')) closeModals();
+    });
+
+    function togglePassword(fieldId, icon) {
+        const field = document.getElementById(fieldId);
+        const iconEl = icon.querySelector('i');
+        if (field.type === 'password') {
+            field.type = 'text';
+            iconEl.classList.remove('fa-eye');
+            iconEl.classList.add('fa-eye-slash');
+        } else {
+            field.type = 'password';
+            iconEl.classList.remove('fa-eye-slash');
+            iconEl.classList.add('fa-eye');
         }
+    }
 
-        let selectedDate = null;
+    async function handleLogin(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        try {
+            const res = await fetch(`${API_URL}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+            if (res.ok) {
+                currentUser = result.user;
+                localStorage.setItem('dearself_user', JSON.stringify(result.user));
+                closeModals();
+                showToast('Welcome back, ' + result.user.name + '!');
+                updateUIForLoggedInUser();
+                redirectBasedOnRole(result.user.role);
+            } else {
+                showToast(result.error || 'Login failed');
+            }
+        } catch (err) {
+            showToast('Connection error. Please try again.');
+        }
+    }
 
-                function renderCalendar() {
-                    const now = new Date();
-                    const grid = document.getElementById('calendar-grid');
-                    const header = document.getElementById('calendar-header');
+    function updateUIForLoggedInUser() {
+        if (currentUser) {
+            document.getElementById('login-trigger').textContent = currentUser.name;
+        }
+    }
 
-                    while (grid.children.length > 7) grid.removeChild(grid.lastChild);
+    function redirectBasedOnRole(role) {
+        setTimeout(() => {
+            switch (role) {
+                case 'admin': window.location.href = 'Admindashboard.html'; break;
+                case 'staff': window.location.href = 'StaffDashboard.html'; break;
+                case 'receptionist': window.location.href = 'Receptionist.html'; break;
+                case 'customer': window.location.href = 'CustomerDashboard.html'; break;
+            }
+        }, 1500);
+    }
 
-                    const month = now.getMonth();
-                    const year = now.getFullYear();
-                    header.innerText = `${now.toLocaleString('default', { month: 'long' })} ${year}`;
+    async function handleRegister(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        if (data.password !== data.confirmPassword) {
+            showToast('Passwords do not match');
+            return;
+        }
+        try {
+            const res = await fetch(`${API_URL}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await res.json();
+            if (res.ok) {
+                closeModals();
+                showToast('Registration successful! Please log in.');
+                showLoginModal();
+            } else {
+                showToast(result.error || 'Registration failed');
+            }
+        } catch (err) {
+            showToast('Connection error. Please try again.');
+        }
+    }
 
-                    const daysInMonth = new Date(year, month + 1, 0).getDate();
-                    const firstDay = new Date(year, month, 1).getDay();
+    async function handleBookingSubmit(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        if (data.password !== data.confirmPassword) {
+            showToast('Passwords do not match');
+            return;
+        }
+        const selectedServices = [];
+        if (data.service1) selectedServices.push({ service_id: data.service1, quantity: 1 });
+        if (data.service2) selectedServices.push({ service_id: data.service2, quantity: 1 });
+        try {
+            const regRes = await fetch(`${API_URL}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: data.name,
+                    email: data.email,
+                    phone: data.phone,
+                    password: data.password,
+                    role: 'customer'
+                })
+            });
+            let customerId = null;
+            if (regRes.ok) {
+                const regData = await regRes.json();
+                customerId = regData.user?.id;
+            }
+            await fetch(`${API_URL}/bookings`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    customer_id: customerId,
+                    booking_date: data.date,
+                    services: selectedServices,
+                    notes: data.notes,
+                    payment_method: 'cash'
+                })
+            });
+            showToast('Booking confirmed! We\'ll contact you soon.');
+            e.target.reset();
+        } catch (err) {
+            showToast('Connection error. Please try again.');
+        }
+    }
 
-                    for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
-
-                    for (let day = 1; day <= daysInMonth; day++) {
-                        const cell = document.createElement('div');
-                        cell.classList.add('cal-date-cell');
-                        cell.innerText = day;
-                        cell.onclick = () => selectDayOff(day, cell);
-                        grid.appendChild(cell);
-                    }
-                }
-
-                function selectDayOff(day, element) {
-                    document.querySelectorAll('.cal-date-cell').forEach(c => c.style.backgroundColor = '');
-
-                    element.style.backgroundColor = '#ffccbc';
-                    selectedDate = day;
-
-                    document.getElementById('selected-day-off').value = day;
-                    console.log("Selected Day Off (No-Work Duty):", day);
-                }
-
-                renderCalendar();
-    </script>
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+</script>
 </body>
 </html>

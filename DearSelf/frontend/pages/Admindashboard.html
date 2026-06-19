@@ -1,171 +1,1035 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dear Self - Admin Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dear Self - Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://font.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --cream: #faf6f0;
+            --champagne: #f5ebe0;
+            --sand: #e8ddd4;
+            --gold: #c5a880;
+            --gold-dark: #a88b5a;
+            --espresso: #2a2421;
+            --charcoal: #3d3a38;
+            --sage: #9caf88;
+            --blush: #e8d4d4;
+            --success: #7caf88;
+            --warning: #d4b88a;
+            --danger: #d48a8a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--espresso);
+            min-height: 100vh;
+        }
 
-<link rel="stylesheet" href="../css/admin.css">
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--champagne), var(--sand));
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(42, 36, 33, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .logo:hover { color: var(--gold); }
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .header-nav a {
+            text-decoration: none;
+            color: var(--charcoal);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .header-nav a:hover { color: var(--gold); }
+        .profile {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--espresso);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .profile:hover { transform: scale(1.1); }
+        .profile img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        /* Layout */
+        .dashboard-layout {
+            display: flex;
+            min-height: calc(100vh - 85px);
+        }
 
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #fff;
+            padding: 30px 20px;
+            box-shadow: 4px 0 20px rgba(42, 36, 33, 0.05);
+        }
+        .sidebar-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            color: var(--gold-dark);
+            margin-bottom: 20px;
+            padding-left: 15px;
+        }
+        .sidebar-menu {
+            list-style: none;
+        }
+        .sidebar-menu li {
+            margin-bottom: 8px;
+        }
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            text-decoration: none;
+            color: var(--charcoal);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        .sidebar-menu a:hover {
+            background: var(--champagne);
+            color: var(--espresso);
+        }
+        .sidebar-menu a.active {
+            background: var(--espresso);
+            color: #fff;
+        }
+        .sidebar-menu a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(42, 36, 33, 0.06);
+            transition: transform 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .stat-card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+        .stat-card-icon.gold { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #fff; }
+        .stat-card-icon.sage { background: linear-gradient(135deg, var(--sage), #7a9f70); color: #fff; }
+        .stat-card-icon.espresso { background: linear-gradient(135deg, var(--espresso), #3a3532); color: #fff; }
+        .stat-card-icon.blush { background: linear-gradient(135deg, var(--blush), #d8c4c4); color: var(--espresso); }
+        .stat-card-value {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .stat-card-label {
+            font-size: 13px;
+            color: var(--charcoal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--sand);
+        }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .toolbar-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: var(--espresso);
+            color: #fff;
+        }
+        .btn-primary:hover { background: var(--gold); }
+        .btn-secondary {
+            background: var(--champagne);
+            color: var(--espresso);
+        }
+        .btn-secondary:hover { background: var(--sand); }
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+        .btn-danger:hover { background: #c47878; }
+        .search-box {
+            position: relative;
+        }
+        .search-box input {
+            padding: 12px 20px 12px 45px;
+            border: none;
+            background: #fff;
+            border-radius: 10px;
+            font-size: 14px;
+            width: 300px;
+            box-shadow: 0 3px 10px rgba(42, 36, 33, 0.06);
+            transition: all 0.3s;
+        }
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--gold);
+        }
+        .search-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--charcoal);
+        }
+
+        /* Table */
+        .table-container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(42, 36, 33, 0.06);
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background: linear-gradient(135deg, var(--champagne), var(--sand));
+        }
+        th {
+            padding: 18px 20px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--espresso);
+        }
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--champagne);
+            font-size: 14px;
+        }
+        tbody tr {
+            transition: background 0.3s;
+        }
+        tbody tr:hover { background: var(--cream); }
+        tbody tr:last-child td { border-bottom: none; }
+        .status-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-badge.pending { background: var(--warning); color: var(--espresso); }
+        .status-badge.confirmed { background: var(--success); color: #fff; }
+        .status-badge.completed { background: var(--sage); color: #fff; }
+        .status-badge.cancelled { background: var(--danger); color: #fff; }
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+        .action-btns button {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .action-btns .edit-btn { background: var(--champagne); color: var(--espresso); }
+        .action-btns .edit-btn:hover { background: var(--gold); color: #fff; }
+        .action-btns .delete-btn { background: var(--blush); color: var(--espresso); }
+        .action-btns .delete-btn:hover { background: var(--danger); color: #fff; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(42, 36, 33, 0.5);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            padding: 20px;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal {
+            background: #fff;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+            box-shadow: 0 25px 60px rgba(42, 36, 33, 0.25);
+        }
+        .modal-overlay.active .modal { transform: scale(1); }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .modal-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--charcoal);
+            transition: all 0.3s;
+        }
+        .modal-close:hover { color: var(--gold); transform: rotate(90deg); }
+        .form-group { margin-bottom: 20px; }
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: var(--charcoal);
+        }
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--champagne);
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--espresso);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-size: 14px;
+            z-index: 3000;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 30px rgba(42, 36, 33, 0.2);
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 85px;
+                height: calc(100vh - 85px);
+                z-index: 99;
+                transition: left 0.3s;
+            }
+            .sidebar.open { left: 0; }
+            .main-content { padding: 20px; }
+            .search-box input { width: 200px; }
+        }
+        @media (max-width: 600px) {
+            .toolbar { flex-direction: column; align-items: stretch; }
+            .search-box input { width: 100%; }
+            .table-container { overflow-x: auto; }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-
-    <div class="logo">
-        Dear Self
-    </div>
-
-    <nav>
-        <a href="#">Contact Us</a>
-        <a href="#">About Us</a>
-        <a href="#">Home</a>
-
-            <div class="profile">
-                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="profile">
-            </div>
+<header class="header">
+    <div class="logo" onclick="window.location.href='landingpage.html'">Dear Self</div>
+    <nav class="header-nav">
+        <a href="landingpage.html">Landing Page</a>
+        <a href="#" onclick="logout()">Logout</a>
+        <div class="profile" id="userProfile">
+            <span id="profileInitial">A</span>
+        </div>
     </nav>
-
 </header>
 
-<div class="container">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-
-        <button class="menu active">
-            View Booking Record
-        </button>
-
-        <button class="menu">
-            View Payment Record
-        </button>
-
-        <button class="menu">
-            View Feedback
-        </button>
-
-        <button class="menu">
-            View Employee Status
-        </button>
-
-        <button class="menu">
-            Post Promos
-        </button>
-
-        <button class="menu">
-            Chat Room
-        </button>
-
+<div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-title">Administration</div>
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active" data-view="bookings"><i class="fas fa-calendar-alt"></i> Booking Records</a></li>
+            <li><a href="#" data-view="payments"><i class="fas fa-credit-card"></i> Payment Records</a></li>
+            <li><a href="#" data-view="feedback"><i class="fas fa-comments"></i> Feedback</a></li>
+            <li><a href="#" data-view="employees"><i class="fas fa-users"></i> Employee Status</a></li>
+            <li><a href="#" data-view="promos"><i class="fas fa-tags"></i> Post Promos</a></li>
+            <li><a href="#" data-view="services"><i class="fas fa-spa"></i> Manage Services</a></li>
+        </ul>
     </aside>
 
-    <!-- CONTENT -->
-    <main class="content">
-
-        <div class="toolbar">
-
-            <div class="actions">
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <div class="stat-card-value" id="todayBookings">0</div>
+                        <div class="stat-card-label">Today's Bookings</div>
+                    </div>
+                    <div class="stat-card-icon gold"><i class="fas fa-calendar-day"></i></div>
+                </div>
             </div>
-
-            <div class="search-box">
-
-                <i class="fa-solid fa-magnifying-glass"></i>
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search booking...">
-
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <div class="stat-card-value" id="pendingPayments">0</div>
+                        <div class="stat-card-label">Pending Payments</div>
+                    </div>
+                    <div class="stat-card-icon blush"><i class="fas fa-clock"></i></div>
+                </div>
             </div>
-
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <div class="stat-card-value" id="totalRevenue">PHP 0</div>
+                        <div class="stat-card-label">Total Revenue</div>
+                    </div>
+                    <div class="stat-card-icon sage"><i class="fas fa-chart-line"></i></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div>
+                        <div class="stat-card-value" id="avgRating">0.0</div>
+                        <div class="stat-card-label">Average Rating</div>
+                    </div>
+                    <div class="stat-card-icon espresso"><i class="fas fa-star"></i></div>
+                </div>
+            </div>
         </div>
 
-        <div class="table-container">
-
-            <table id="bookingTable">
-
-                <thead>
-
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Contact No.</th>
-                    <th>Date</th>
-                    <th>Payment</th>
-                    <th>Services</th>
-                </tr>
-
-                </thead>
-
-                <tbody>
-
-                <tr>
-                    <td>12345</td>
-                    <td>Rosa Mallister</td>
-                    <td>rm12@gmail.com</td>
-                    <td>9515251721</td>
-                    <td>06/21/2026</td>
-                    <td>Online</td>
-                    <td>Pedicure and Hair</td>
-                </tr>
-
-                <tr>
-                    <td>67890</td>
-                    <td>Cirilla Meller</td>
-                    <td>cirimeller@gmail.com</td>
-                    <td>9126643178</td>
-                    <td>06/21/2026</td>
-                    <td>Onsite</td>
-                    <td>Manicure and Hair</td>
-                </tr>
-
-                <tr>
-                    <td>33312</td>
-                    <td>Laura Jones</td>
-                    <td>lj123@gmail.com</td>
-                    <td>9876554322</td>
-                    <td>06/17/2026</td>
-                    <td>Online</td>
-                    <td>Massage and Hair</td>
-                </tr>
-
-                <tr>
-                    <td>76543</td>
-                    <td>Janette Clyne</td>
-                    <td>msjanette@gmail.com</td>
-                    <td>9553216847</td>
-                    <td>06/20/2026</td>
-                    <td>Online</td>
-                    <td>Massage, Hair and Nails</td>
-                </tr>
-
-                <tr>
-                    <td>32321</td>
-                    <td>Claire Baron</td>
-                    <td>clairebaron07@gmail.com</td>
-                    <td>9757402236</td>
-                    <td>06/23/2026</td>
-                    <td>Onsite</td>
-                    <td>Hair and Massage</td>
-                </tr>
-
-                </tbody>
-
-            </table>
-
+        <!-- Bookings Section -->
+        <div id="bookings-section">
+            <h2 class="section-title">Booking Records</h2>
+            <div class="toolbar">
+                <div class="toolbar-actions">
+                    <button class="btn btn-primary" onclick="openAddBookingModal()"><i class="fas fa-plus"></i> Add Booking</button>
+                    <button class="btn btn-secondary" onclick="exportData()"><i class="fas fa-download"></i> Export</button>
+                </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search bookings..." onkeyup="filterTable()">
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Email</th>
+                            <th>Contact</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Services</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTableBody">
+                        <!-- Loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
         </div>
 
+        <!-- Payments Section (hidden by default) -->
+        <div id="payments-section" style="display: none;">
+            <h2 class="section-title">Payment Records</h2>
+            <div class="toolbar">
+                <div class="toolbar-actions">
+                    <button class="btn btn-secondary" onclick="exportData('payments')"><i class="fas fa-download"></i> Export</button>
+                </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="paymentSearch" placeholder="Search payments..." onkeyup="filterPayments()">
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Booking</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Feedback Section (hidden by default) -->
+        <div id="feedback-section" style="display: none;">
+            <h2 class="section-title">Customer Feedback</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Rating</th>
+                            <th>Comment</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedbackTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Employees Section (hidden by default) -->
+        <div id="employees-section" style="display: none;">
+            <h2 class="section-title">Employee Status</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Email</th>
+                            <th>Contact</th>
+                            <th>Day Off</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeesTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Promos Section (hidden by default) -->
+        <div id="promos-section" style="display: none;">
+            <h2 class="section-title">Manage Promotions</h2>
+            <div class="toolbar">
+                <button class="btn btn-primary" onclick="openAddPromoModal()"><i class="fas fa-plus"></i> Add Promo</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Discount</th>
+                            <th>Valid Until</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="promosTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Services Section (hidden by default) -->
+        <div id="services-section" style="display: none;">
+            <h2 class="section-title">Manage Services</h2>
+            <div class="toolbar">
+                <button class="btn btn-primary" onclick="openAddServiceModal()"><i class="fas fa-plus"></i> Add Service</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="servicesTableBody"></tbody>
+                </table>
+            </div>
+        </div>
     </main>
-
 </div>
 
-<script src="../js/script.js"></script>
+<!-- Add/Edit Booking Modal -->
+<div class="modal-overlay" id="bookingModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title" id="bookingModalTitle">Add Booking</h3>
+            <button class="modal-close" onclick="closeModal('bookingModal')">&times;</button>
+        </div>
+        <form id="bookingForm" onsubmit="saveBooking(event)">
+            <input type="hidden" id="bookingId">
+            <div class="form-group">
+                <label class="form-label">Customer Name</label>
+                <input type="text" class="form-input" id="bookingCustomer" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-input" id="bookingEmail" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Contact Number</label>
+                <input type="tel" class="form-input" id="bookingContact" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-input" id="bookingDate" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Status</label>
+                <select class="form-input" id="bookingStatus">
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Save Booking</button>
+        </form>
+    </div>
+</div>
 
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+    const API_URL = 'http://localhost:3000/api';
+    let currentUser = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        currentUser = JSON.parse(localStorage.getItem('dearself_user') || '{}');
+        if (currentUser.name) {
+            document.getElementById('profileInitial').textContent = currentUser.name.charAt(0).toUpperCase();
+        }
+        loadStats();
+        loadBookings();
+        initSidebarNavigation();
+    });
+
+    function initSidebarNavigation() {
+        const menuItems = document.querySelectorAll('.sidebar-menu a');
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const view = item.dataset.view;
+                menuItems.forEach(m => m.classList.remove('active'));
+                item.classList.add('active');
+                showSection(view);
+            });
+        });
+    }
+
+    function showSection(view) {
+        const sections = ['bookings', 'payments', 'feedback', 'employees', 'promos', 'services'];
+        sections.forEach(s => {
+            const el = document.getElementById(`${s}-section`);
+            if (el) el.style.display = s === view ? 'block' : 'none';
+        });
+        if (view === 'payments') loadPayments();
+        if (view === 'feedback') loadFeedback();
+        if (view === 'employees') loadEmployees();
+        if (view === 'promos') loadPromos();
+        if (view === 'services') loadServices();
+    }
+
+    async function loadStats() {
+        try {
+            const res = await fetch(`${API_URL}/stats`);
+            const data = await res.json();
+            document.getElementById('todayBookings').textContent = data.bookingsToday || 0;
+            document.getElementById('pendingPayments').textContent = data.pendingPayments || 0;
+            document.getElementById('totalRevenue').textContent = `PHP ${(data.totalRevenue || 0).toLocaleString()}`;
+            document.getElementById('avgRating').textContent = data.averageRating || '0.0';
+        } catch (err) {
+            console.error('Failed to load stats:', err);
+        }
+    }
+
+    async function loadBookings() {
+        try {
+            const res = await fetch(`${API_URL}/bookings`);
+            const data = await res.json();
+            renderBookings(data);
+        } catch (err) {
+            console.error('Failed to load bookings:', err);
+        }
+    }
+
+    function renderBookings(bookings) {
+        const tbody = document.getElementById('bookingsTableBody');
+        if (!bookings.length) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px;">No bookings found</td></tr>';
+            return;
+        }
+        tbody.innerHTML = bookings.map(b => `
+            <tr>
+                <td>${b.id?.substring(0, 8) || '-'}</td>
+                <td>${b.customer?.name || 'Guest'}</td>
+                <td>${b.customer?.email || '-'}</td>
+                <td>${b.customer?.phone || '-'}</td>
+                <td>${b.booking_date}</td>
+                <td><span class="status-badge ${b.status}">${b.status}</span></td>
+                <td>${b.services?.map(s => s.services?.name).join(', ') || '-'}</td>
+                <td>
+                    <div class="action-btns">
+                        <button class="edit-btn" onclick="editBooking('${b.id}')"><i class="fas fa-edit"></i></button>
+                        <button class="delete-btn" onclick="deleteBooking('${b.id}')"><i class="fas fa-trash"></i></button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    async function loadPayments() {
+        try {
+            const res = await fetch(`${API_URL}/payments`);
+            const data = await res.json();
+            const tbody = document.getElementById('paymentsTableBody');
+            tbody.innerHTML = data.map(p => `
+                <tr>
+                    <td>${p.id?.substring(0, 8) || '-'}</td>
+                    <td>${p.booking_id?.substring(0, 8) || '-'}</td>
+                    <td>${p.bookings?.customer?.name || '-'}</td>
+                    <td>PHP ${parseFloat(p.amount).toLocaleString()}</td>
+                    <td>${p.payment_method}</td>
+                    <td><span class="status-badge ${p.status}">${p.status}</span></td>
+                    <td>${new Date(p.created_at).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn btn-secondary" style="padding: 8px 12px; font-size: 11px;" onclick="updatePaymentStatus('${p.id}', 'paid')">Mark Paid</button>
+                    </td>
+                </tr>
+            `).join('');
+        } catch (err) {
+            console.error('Failed to load payments:', err);
+        }
+    }
+
+    async function loadFeedback() {
+        try {
+            const res = await fetch(`${API_URL}/feedback`);
+            const data = await res.json();
+            const tbody = document.getElementById('feedbackTableBody');
+            tbody.innerHTML = data.map(f => `
+                <tr>
+                    <td>${f.customer?.name || 'Anonymous'}</td>
+                    <td>${'★'.repeat(f.rating)}${'☆'.repeat(5 - f.rating)}</td>
+                    <td>${f.comment || '-'}</td>
+                    <td>${new Date(f.created_at).toLocaleDateString()}</td>
+                </tr>
+            `).join('');
+        } catch (err) {
+            console.error('Failed to load feedback:', err);
+        }
+    }
+
+    async function loadEmployees() {
+        try {
+            const res = await fetch(`${API_URL}/staff`);
+            const data = await res.json();
+            const tbody = document.getElementById('employeesTableBody');
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            tbody.innerHTML = data.map(e => `
+                <tr>
+                    <td>${e.name}</td>
+                    <td>${e.role}</td>
+                    <td>${e.email}</td>
+                    <td>${e.phone || '-'}</td>
+                    <td>${e.day_off !== null ? days[e.day_off] : '-'}</td>
+                    <td><span class="status-badge ${e.is_active ? 'confirmed' : 'cancelled'}">${e.is_active ? 'Active' : 'Inactive'}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="edit-btn" onclick="toggleEmployeeStatus('${e.id}', ${!e.is_active})"><i class="fas fa-power-off"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        } catch (err) {
+            console.error('Failed to load employees:', err);
+        }
+    }
+
+    async function loadPromos() {
+        try {
+            const res = await fetch(`${API_URL}/promos`);
+            const data = await res.json();
+            const tbody = document.getElementById('promosTableBody');
+            tbody.innerHTML = data.map(p => `
+                <tr>
+                    <td>${p.title}</td>
+                    <td>${p.description || '-'}</td>
+                    <td>${p.discount_percent ? p.discount_percent + '%' : 'PHP ' + (p.discount_amount || 0)}</td>
+                    <td>${p.end_date || '-'}</td>
+                    <td><span class="status-badge ${p.is_active ? 'confirmed' : 'cancelled'}">${p.is_active ? 'Active' : 'Inactive'}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="delete-btn" onclick="deletePromo('${p.id}')"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        } catch (err) {
+            console.error('Failed to load promos:', err);
+        }
+    }
+
+    async function loadServices() {
+        try {
+            const res = await fetch(`${API_URL}/services`);
+            const data = await res.json();
+            const tbody = document.getElementById('servicesTableBody');
+            tbody.innerHTML = data.map(s => `
+                <tr>
+                    <td>${s.name}</td>
+                    <td>${s.category}</td>
+                    <td>PHP ${parseFloat(s.price).toLocaleString()}</td>
+                    <td>${s.duration_minutes || 60} mins</td>
+                    <td><span class="status-badge ${s.is_active ? 'confirmed' : 'cancelled'}">${s.is_active ? 'Active' : 'Inactive'}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="delete-btn" onclick="deleteService('${s.id}')"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        } catch (err) {
+            console.error('Failed to load services:', err);
+        }
+    }
+
+    function openAddBookingModal() {
+        document.getElementById('bookingModalTitle').textContent = 'Add Booking';
+        document.getElementById('bookingForm').reset();
+        document.getElementById('bookingId').value = '';
+        document.getElementById('bookingModal').classList.add('active');
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('active');
+    }
+
+    async function saveBooking(e) {
+        e.preventDefault();
+        const id = document.getElementById('bookingId').value;
+        const data = {
+            booking_date: document.getElementById('bookingDate').value,
+            status: document.getElementById('bookingStatus').value
+        };
+        try {
+            if (id) {
+                await fetch(`${API_URL}/bookings/${id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+            }
+            closeModal('bookingModal');
+            loadBookings();
+            showToast('Booking saved successfully');
+        } catch (err) {
+            showToast('Failed to save booking');
+        }
+    }
+
+    async function editBooking(id) {
+        try {
+            const res = await fetch(`${API_URL}/bookings/${id}`);
+            const booking = await res.json();
+            document.getElementById('bookingModalTitle').textContent = 'Edit Booking';
+            document.getElementById('bookingId').value = booking.id;
+            document.getElementById('bookingCustomer').value = booking.customer?.name || '';
+            document.getElementById('bookingEmail').value = booking.customer?.email || '';
+            document.getElementById('bookingContact').value = booking.customer?.phone || '';
+            document.getElementById('bookingDate').value = booking.booking_date;
+            document.getElementById('bookingStatus').value = booking.status;
+            document.getElementById('bookingModal').classList.add('active');
+        } catch (err) {
+            showToast('Failed to load booking details');
+        }
+    }
+
+    async function deleteBooking(id) {
+        if (!confirm('Are you sure you want to delete this booking?')) return;
+        try {
+            await fetch(`${API_URL}/bookings/${id}`, { method: 'DELETE' });
+            loadBookings();
+            showToast('Booking deleted');
+        } catch (err) {
+            showToast('Failed to delete booking');
+        }
+    }
+
+    async function updatePaymentStatus(id, status) {
+        try {
+            await fetch(`${API_URL}/payments/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            });
+            loadPayments();
+            loadStats();
+            showToast('Payment status updated');
+        } catch (err) {
+            showToast('Failed to update payment');
+        }
+    }
+
+    async function toggleEmployeeStatus(id, status) {
+        try {
+            await fetch(`${API_URL}/staff/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ is_active: status })
+            });
+            loadEmployees();
+            showToast('Employee status updated');
+        } catch (err) {
+            showToast('Failed to update employee');
+        }
+    }
+
+    function filterTable() {
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const rows = document.querySelectorAll('#bookingsTableBody tr');
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(search) ? '' : 'none';
+        });
+    }
+
+    function logout() {
+        localStorage.removeItem('dearself_user');
+        window.location.href = 'landingpage.html';
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function exportData(type = 'bookings') {
+        showToast('Export feature coming soon');
+    }
+</script>
 </body>
 </html>

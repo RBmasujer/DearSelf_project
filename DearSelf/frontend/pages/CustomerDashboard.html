@@ -1,140 +1,786 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dear Self - Customer Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --cream: #faf6f0;
+            --champagne: #f5ebe0;
+            --sand: #e8ddd4;
+            --gold: #c5a880;
+            --gold-dark: #a88b5a;
+            --espresso: #2a2421;
+            --charcoal: #3d3a38;
+            --sage: #9caf88;
+            --blush: #e8d4d4;
+            --success: #7caf88;
+            --warning: #d4b88a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--espresso);
+            min-height: 100vh;
+        }
 
-<title>Dear Self - Customer Dashboard</title>
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--champagne), var(--sand));
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(42, 36, 33, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .logo:hover { color: var(--gold); }
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .header-nav a {
+            text-decoration: none;
+            color: var(--charcoal);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .header-nav a:hover { color: var(--gold); }
+        .profile {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--espresso);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
 
-<link rel="stylesheet" href="../css/customer.css">
+        /* Layout */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: calc(100vh - 85px);
+        }
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        /* Left Panel */
+        .booking-panel {
+            padding: 50px;
+            background: #fff;
+            overflow-y: auto;
+        }
+        .page-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        .page-subtitle {
+            font-size: 14px;
+            color: var(--charcoal);
+            margin-bottom: 40px;
+        }
+        .welcome-user {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--champagne);
+        }
+        .tab-btn {
+            padding: 12px 25px;
+            background: none;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--charcoal);
+            position: relative;
+            transition: all 0.3s;
+        }
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+        .tab-btn.active::after { width: 100%; }
+        .tab-btn.active { color: var(--gold); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Booking History */
+        .booking-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .booking-card {
+            background: var(--cream);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s;
+            border: 1px solid var(--champagne);
+        }
+        .booking-card:hover {
+            box-shadow: 0 10px 30px rgba(42, 36, 33, 0.1);
+            transform: translateY(-3px);
+        }
+        .booking-card-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .booking-id {
+            font-size: 11px;
+            color: var(--charcoal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-badge.pending { background: var(--warning); color: var(--espresso); }
+        .status-badge.confirmed { background: var(--success); color: #fff; }
+        .status-badge.completed { background: var(--sage); color: #fff; }
+        .booking-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .booking-services {
+            font-size: 14px;
+            color: var(--charcoal);
+        }
+        .booking-total {
+            font-weight: 600;
+            color: var(--gold-dark);
+            margin-top: 15px;
+            font-size: 16px;
+        }
+
+        /* Booking Form */
+        .booking-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .form-section {
+            background: var(--cream);
+            border-radius: 16px;
+            padding: 25px;
+        }
+        .form-section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--sand);
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .service-option {
+            padding: 15px;
+            background: #fff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .service-option:hover { border-color: var(--gold); }
+        .service-option.selected { border-color: var(--gold); background: var(--champagne); }
+        .service-option input { display: none; }
+        .service-name { font-weight: 500; font-size: 14px; margin-bottom: 5px; }
+        .service-price { font-size: 13px; color: var(--gold-dark); }
+        .form-group { margin-bottom: 18px; }
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--champagne);
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            background: #fff;
+            transition: all 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+        select.form-input {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233d3a38' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+        }
+        .btn {
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-primary {
+            background: var(--espresso);
+            color: #fff;
+        }
+        .btn-primary:hover { background: var(--gold); }
+
+        /* Right Panel */
+        .promo-panel {
+            background: linear-gradient(180deg, #e8f4f8 0%, #cce5ed 40%, var(--sage) 100%);
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .promo-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .promo-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .promo-header p {
+            font-size: 14px;
+            color: var(--charcoal);
+        }
+        .promo-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .promo-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .promo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(42, 36, 33, 0.15);
+        }
+        .promo-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+        .promo-content {
+            padding: 20px;
+        }
+        .promo-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .promo-discount {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--gold);
+            color: #fff;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .promo-desc {
+            font-size: 13px;
+            color: var(--charcoal);
+            margin-top: 10px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            background: var(--cream);
+            border-radius: 16px;
+        }
+        .empty-state i {
+            font-size: 48px;
+            color: var(--sand);
+            margin-bottom: 20px;
+        }
+        .empty-state h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--espresso);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-size: 14px;
+            z-index: 3000;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard-layout { grid-template-columns: 1fr; }
+            .promo-panel { padding: 40px; }
+        }
+        @media (max-width: 600px) {
+            .booking-panel { padding: 30px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .header { padding: 15px 20px; }
+            .header-nav a { display: none; }
+            .header-nav a:last-child { display: block; }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- HEADER -->
-<header>
-
-    <div class="logo">
-        Dear Self
-    </div>
-
-    <nav>
-
-        <a href="#">Feedback</a>
-        <a href="#">Contact Us</a>
-        <a href="#">About Us</a>
-        <a href="#">Home</a>
-
-            <div class="profile">
-                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="profile">
-            </div>
-
+<header class="header">
+    <div class="logo" onclick="window.location.href='landingpage.html'">Dear Self</div>
+    <nav class="header-nav">
+        <a href="#" onclick="switchTab('book')">Book Now</a>
+        <a href="#" onclick="switchTab('history')">My Bookings</a>
+        <a href="#" onclick="logout()">Logout</a>
+        <div class="profile" id="userProfile">
+            <span id="profileInitial">G</span>
+        </div>
     </nav>
-
 </header>
 
-<!-- MAIN -->
-
-<div class="container">
-
-    <!-- LEFT SIDE -->
+<div class="dashboard-layout">
+    <!-- Left Panel -->
     <section class="booking-panel">
+        <h1 class="page-title">Customer Dashboard</h1>
+        <p class="page-subtitle">Manage your appointments and services</p>
+        <p class="welcome-user">Welcome back, <span id="userName">Guest</span>!</p>
 
-        <h1>Customer Dashboard</h1>
-
-        <p class="welcome">
-            Welcome to Dear Self
-        </p>
-
-        <h2>Nurture your Natural Beauty</h2>
-
-        <div class="booking-content">
-
-            <div class="booking-details">
-
-                <h3>Booking Details</h3>
-
-                <textarea
-                    placeholder="Booking information appears here..."
-                    readonly>
-                </textarea>
-
-            </div>
-
-            <div class="booking-form">
-
-                <select>
-                    <option>Add Services</option>
-                    <option>Haircut</option>
-                    <option>Hair Coloring</option>
-                    <option>Massage</option>
-                    <option>Pedicure</option>
-                    <option>Manicure</option>
-                </select>
-
-                <select>
-                    <option>Payment Method</option>
-                    <option>GCash</option>
-                    <option>Maya</option>
-                    <option>Cash</option>
-                    <option>Credit Card</option>
-                </select>
-
-                <select>
-                    <option>Choose Staff</option>
-                    <option>Staff A</option>
-                    <option>Staff B</option>
-                    <option>Staff C</option>
-                </select>
-
-                <textarea
-                    placeholder="Leave feedback">
-                </textarea>
-
-                <input type="date">
-
-                <button id="confirmBtn">
-                    Confirm Booking
-                </button>
-
-            </div>
-
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="book">Book Now</button>
+            <button class="tab-btn" data-tab="history">My Bookings</button>
+            <button class="tab-btn" data-tab="feedback">Feedback</button>
         </div>
 
-    </section>
+        <!-- Book Tab -->
+        <div class="tab-content active" id="book-tab">
+            <form class="booking-form" id="bookingForm" onsubmit="submitBooking(event)">
+                <div class="form-section">
+                    <h3 class="form-section-title">Select Services</h3>
+                    <div class="services-grid" id="servicesGrid">
+                        <!-- Services loaded dynamically -->
+                    </div>
+                </div>
 
-    <!-- RIGHT SIDE -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Schedule & Payment</h3>
+                    <div class="form-group">
+                        <label class="form-label">Preferred Date</label>
+                        <input type="date" class="form-input" id="bookingDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Preferred Time</label>
+                        <select class="form-input" id="bookingTime" required>
+                            <option value="">Select a time</option>
+                            <option value="09:00">9:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="15:00">3:00 PM</option>
+                            <option value="16:00">4:00 PM</option>
+                            <option value="17:00">5:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Payment Method</label>
+                        <select class="form-input" id="paymentMethod">
+                            <option value="cash">Cash (On-site)</option>
+                            <option value="gcash">GCash</option>
+                            <option value="maya">Maya</option>
+                            <option value="credit_card">Credit Card</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Special Requests</label>
+                        <textarea class="form-input" id="notes" rows="3" placeholder="Any allergies, preferences, or special requests..."></textarea>
+                    </div>
+                </div>
 
-    <section class="promo-section">
-
-        <div class="promo-overlay">
-
-            <h2>Promos & Services</h2>
-
-            <div class="promo-card">
-
-                <img
-                src="https://images.unsplash.com/photo-1562322140-8baeececf3df"
-                alt="Salon">
-
-                <h3>Hair Treatment Promo</h3>
-
-                <p>
-                    20% OFF this month
-                </p>
-
-            </div>
-
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Estimated Total</div>
+                        <div id="totalAmount" style="font-size: 24px; font-weight: 600; color: var(--gold-dark);">PHP 0</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Confirm Booking</button>
+                </div>
+            </form>
         </div>
 
+        <!-- History Tab -->
+        <div class="tab-content" id="history-tab">
+            <div class="booking-list" id="bookingHistory">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
+
+        <!-- Feedback Tab -->
+        <div class="tab-content" id="feedback-tab">
+            <div class="form-section">
+                <h3 class="form-section-title">Share Your Experience</h3>
+                <form id="feedbackForm" onsubmit="submitFeedback(event)">
+                    <div class="form-group">
+                        <label class="form-label">Select Booking</label>
+                        <select class="form-input" id="feedbackBooking" required>
+                            <option value="">Choose a completed booking</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Rating</label>
+                        <div style="display: flex; gap: 10px; font-size: 28px;">
+                            <span class="star" data-rating="1" onclick="setRating(1)" style="cursor: pointer; color: var(--sand);">&#9733;</span>
+                            <span class="star" data-rating="2" onclick="setRating(2)" style="cursor: pointer; color: var(--sand);">&#9733;</span>
+                            <span class="star" data-rating="3" onclick="setRating(3)" style="cursor: pointer; color: var(--sand);">&#9733;</span>
+                            <span class="star" data-rating="4" onclick="setRating(4)" style="cursor: pointer; color: var(--sand);">&#9733;</span>
+                            <span class="star" data-rating="5" onclick="setRating(5)" style="cursor: pointer; color: var(--sand);">&#9733;</span>
+                        </div>
+                        <input type="hidden" id="selectedRating" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Your Feedback</label>
+                        <textarea class="form-input" id="feedbackComment" rows="4" placeholder="Tell us about your experience..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                </form>
+            </div>
+        </div>
     </section>
 
+    <!-- Right Panel -->
+    <section class="promo-panel">
+        <div class="promo-header">
+            <h2>Promotions & Offers</h2>
+            <p>Exclusive deals just for you</p>
+        </div>
+        <div class="promo-grid" id="promosGrid">
+            <!-- Loaded dynamically -->
+        </div>
+    </section>
 </div>
 
-<script src="../js/script.js"></script>
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
+<script>
+    const API_URL = 'http://localhost:3000/api';
+    let currentUser = null;
+    let services = [];
+    let selectedServices = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        currentUser = JSON.parse(localStorage.getItem('dearself_user') || '{}');
+        if (currentUser.name) {
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('profileInitial').textContent = currentUser.name.charAt(0).toUpperCase();
+        }
+
+        initTabs();
+        loadServices();
+        loadPromos();
+        loadBookingHistory();
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('bookingDate').min = today;
+        document.getElementById('bookingDate').value = today;
+    });
+
+    function initTabs() {
+        const tabs = document.querySelectorAll('.tab-btn');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                const tabId = tab.dataset.tab;
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById(`${tabId}-tab`).classList.add('active');
+    }
+
+    async function loadServices() {
+        try {
+            const res = await fetch(`${API_URL}/services?active=true`);
+            services = await res.json();
+            renderServices();
+        } catch (err) {
+            console.error('Services error:', err);
+        }
+    }
+
+    function renderServices() {
+        const grid = document.getElementById('servicesGrid');
+        if (!services.length) {
+            grid.innerHTML = '<p>No services available</p>';
+            return;
+        }
+        grid.innerHTML = services.map(s => `
+            <label class="service-option" data-id="${s.id}" data-price="${s.price}">
+                <input type="checkbox" value="${s.id}" onchange="toggleService('${s.id}', ${s.price}, this.checked)">
+                <div class="service-name">${s.name}</div>
+                <div class="service-price">PHP ${parseFloat(s.price).toLocaleString()}</div>
+            </label>
+        `).join('');
+    }
+
+    function toggleService(id, price, checked) {
+        const option = document.querySelector(`.service-option[data-id="${id}"]`);
+        if (checked) {
+            selectedServices.push({ service_id: id, price });
+            option.classList.add('selected');
+        } else {
+            selectedServices = selectedServices.filter(s => s.service_id !== id);
+            option.classList.remove('selected');
+        }
+        updateTotal();
+    }
+
+    function updateTotal() {
+        const total = selectedServices.reduce((sum, s) => sum + parseFloat(s.price), 0);
+        document.getElementById('totalAmount').textContent = `PHP ${total.toLocaleString()}`;
+    }
+
+    async function loadPromos() {
+        try {
+            const res = await fetch(`${API_URL}/promos?active=true`);
+            const promos = await res.json();
+            renderPromos(promos);
+        } catch (err) {
+            console.error('Promos error:', err);
+        }
+    }
+
+    function renderPromos(promos) {
+        const grid = document.getElementById('promosGrid');
+        if (!promos.length) {
+            grid.innerHTML = `
+                <div class="promo-card">
+                    <div class="promo-content">
+                        <h3 class="promo-title">First Visit Special</h3>
+                        <span class="promo-discount">20% OFF</span>
+                        <p class="promo-desc">Valid for first-time customers. Book now and save!</p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        grid.innerHTML = promos.map(p => `
+            <div class="promo-card">
+                <div class="promo-content">
+                    <h3 class="promo-title">${p.title}</h3>
+                    <span class="promo-discount">${p.discount_percent ? p.discount_percent + '% OFF' : 'PHP ' + (p.discount_amount || 0) + ' OFF'}</span>
+                    <p class="promo-desc">${p.description || 'Limited time offer. Book now!'}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    async function loadBookingHistory() {
+        try {
+            const res = await fetch(`${API_URL}/bookings?customer_id=${currentUser.id}`);
+            const bookings = await res.json();
+            renderBookingHistory(bookings);
+            populateFeedbackBookings(bookings);
+        } catch (err) {
+            console.error('History error:', err);
+        }
+    }
+
+    function renderBookingHistory(bookings) {
+        const list = document.getElementById('bookingHistory');
+        if (!bookings.length) {
+            list.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-calendar-times"></i>
+                    <h3>No Bookings Yet</h3>
+                    <p>Make your first appointment and start your wellness journey!</p>
+                </div>
+            `;
+            return;
+        }
+        list.innerHTML = bookings.map(b => `
+            <div class="booking-card">
+                <div class="booking-card-header">
+                    <span class="booking-id">Booking #${b.id?.substring(0, 8) || 'Pending'}</span>
+                    <span class="status-badge ${b.status}">${b.status}</span>
+                </div>
+                <div class="booking-date">${new Date(b.booking_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                <div class="booking-services">${b.services?.map(s => s.services?.name).join(', ') || '-'}</div>
+                <div class="booking-total">Total: PHP ${(b.total_amount || 0).toLocaleString()}</div>
+            </div>
+        `).join('');
+    }
+
+    function populateFeedbackBookings(bookings) {
+        const select = document.getElementById('feedbackBooking');
+        const completed = bookings.filter(b => b.status === 'completed');
+        select.innerHTML = '<option value="">Choose a completed booking</option>' +
+            completed.map(b => `<option value="${b.id}">${b.booking_date} - ${b.services?.map(s => s.services?.name).join(', ')}</option>`).join('');
+    }
+
+    async function submitBooking(e) {
+        e.preventDefault();
+        if (!selectedServices.length) {
+            showToast('Please select at least one service');
+            return;
+        }
+
+        const bookingData = {
+            customer_id: currentUser.id,
+            booking_date: document.getElementById('bookingDate').value,
+            booking_time: document.getElementById('bookingTime').value,
+            services: selectedServices,
+            notes: document.getElementById('notes').value,
+            payment_method: document.getElementById('paymentMethod').value
+        };
+
+        try {
+            const res = await fetch(`${API_URL}/bookings`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bookingData)
+            });
+            if (res.ok) {
+                showToast('Booking confirmed! See you soon.');
+                selectedServices = [];
+                document.querySelectorAll('.service-option').forEach(o => o.classList.remove('selected'));
+                document.querySelectorAll('.service-option input').forEach(i => i.checked = false);
+                updateTotal();
+                loadBookingHistory();
+                switchTab('history');
+            } else {
+                showToast('Booking failed. Please try again.');
+            }
+        } catch (err) {
+            showToast('Connection error. Please try again.');
+        }
+    }
+
+    let currentRating = 0;
+    function setRating(rating) {
+        currentRating = rating;
+        document.getElementById('selectedRating').value = rating;
+        document.querySelectorAll('.star').forEach((star, i) => {
+            star.style.color = i < rating ? 'var(--gold)' : 'var(--sand)';
+        });
+    }
+
+    async function submitFeedback(e) {
+        e.preventDefault();
+        const rating = parseInt(document.getElementById('selectedRating').value);
+        if (!rating) {
+            showToast('Please select a rating');
+            return;
+        }
+
+        const feedbackData = {
+            booking_id: document.getElementById('feedbackBooking').value,
+            customer_id: currentUser.id,
+            rating,
+            comment: document.getElementById('feedbackComment').value
+        };
+
+        try {
+            const res = await fetch(`${API_URL}/feedback`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(feedbackData)
+            });
+            if (res.ok) {
+                showToast('Thank you for your feedback!');
+                document.getElementById('feedbackForm').reset();
+                setRating(0);
+            } else {
+                showToast('Failed to submit feedback');
+            }
+        } catch (err) {
+            showToast('Connection error. Please try again.');
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('dearself_user');
+        window.location.href = 'landingpage.html';
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+</script>
 </body>
 </html>

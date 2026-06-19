@@ -4,125 +4,787 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dear Self - Staff Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --cream: #faf6f0;
+            --champagne: #f5ebe0;
+            --sand: #e8ddd4;
+            --gold: #c5a880;
+            --gold-dark: #a88b5a;
+            --espresso: #2a2421;
+            --charcoal: #3d3a38;
+            --sage: #9caf88;
+            --blush: #e8d4d4;
+            --success: #7caf88;
+            --warning: #d4b88a;
+            --danger: #d48a8a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--espresso);
+            min-height: 100vh;
+        }
 
-    <link rel="stylesheet" href="../css/staff.css">
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--champagne), var(--sand));
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(42, 36, 33, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .logo:hover { color: var(--gold); }
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .header-nav a {
+            text-decoration: none;
+            color: var(--charcoal);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .header-nav a:hover { color: var(--gold); }
+        .profile {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--espresso);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .profile:hover { transform: scale(1.1); }
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+        /* Layout */
+        .dashboard-layout {
+            display: flex;
+            min-height: calc(100vh - 85px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: #fff;
+            padding: 30px 15px;
+            box-shadow: 4px 0 20px rgba(42, 36, 33, 0.05);
+        }
+        .sidebar-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            color: var(--gold-dark);
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+        .sidebar-menu {
+            list-style: none;
+        }
+        .sidebar-menu li { margin-bottom: 8px; }
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: var(--charcoal);
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        .sidebar-menu a:hover {
+            background: var(--champagne);
+            color: var(--espresso);
+        }
+        .sidebar-menu a.active {
+            background: var(--espresso);
+            color: #fff;
+        }
+        .sidebar-menu a i {
+            width: 18px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, var(--espresso), #3a3532);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+        .welcome-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .welcome-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            position: relative;
+        }
+        .today-date {
+            font-size: 13px;
+            opacity: 0.6;
+            margin-top: 15px;
+            position: relative;
+        }
+
+        /* Stats Cards */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(42, 36, 33, 0.06);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card-value {
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--espresso);
+            margin-bottom: 5px;
+        }
+        .stat-card-label {
+            font-size: 12px;
+            color: var(--charcoal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--sand);
+        }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .date-filter {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .date-input {
+            padding: 12px 18px;
+            border: none;
+            background: #fff;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 3px 10px rgba(42, 36, 33, 0.06);
+        }
+        .search-box {
+            position: relative;
+        }
+        .search-box input {
+            padding: 12px 20px 12px 45px;
+            border: none;
+            background: #fff;
+            border-radius: 10px;
+            font-size: 14px;
+            width: 280px;
+            box-shadow: 0 3px 10px rgba(42, 36, 33, 0.06);
+        }
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--gold);
+        }
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--charcoal);
+        }
+
+        /* Customer Cards */
+        .customers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        .customer-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(42, 36, 33, 0.06);
+            transition: all 0.3s;
+        }
+        .customer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(42, 36, 33, 0.12);
+        }
+        .customer-card-header {
+            background: linear-gradient(135deg, var(--champagne), var(--sand));
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .customer-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .customer-info p {
+            font-size: 12px;
+            color: var(--charcoal);
+        }
+        .customer-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .customer-badge.vip { background: var(--gold); color: #fff; }
+        .customer-badge.new { background: var(--sage); color: #fff; }
+        .customer-badge.regular { background: var(--blush); color: var(--espresso); }
+        .customer-card-body {
+            padding: 20px;
+        }
+        .service-list {
+            margin-bottom: 15px;
+        }
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--champagne);
+        }
+        .service-item:last-child { border-bottom: none; }
+        .service-name { font-weight: 500; }
+        .service-price { color: var(--gold-dark); font-weight: 600; }
+        .promo-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--gold);
+            color: #fff;
+            border-radius: 5px;
+            font-size: 11px;
+            margin-top: 10px;
+        }
+        .customer-card-footer {
+            padding: 15px 20px;
+            background: var(--cream);
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            flex: 1;
+        }
+        .btn-primary { background: var(--espresso); color: #fff; }
+        .btn-primary:hover { background: var(--gold); }
+        .btn-secondary { background: var(--champagne); color: var(--espresso); }
+        .btn-secondary:hover { background: var(--sand); }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border-radius: 16px;
+        }
+        .empty-state i {
+            font-size: 48px;
+            color: var(--sand);
+            margin-bottom: 20px;
+        }
+        .empty-state h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .empty-state p { color: var(--charcoal); font-size: 14px; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--espresso);
+            color: #fff;
+            padding: 16px 32px;
+            border-radius: 30px;
+            font-size: 14px;
+            z-index: 3000;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 10px 30px rgba(42, 36, 33, 0.2);
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* Services Section (hidden by default) */
+        #services-section { display: none; }
+        .table-container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(42, 36, 33, 0.06);
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead { background: linear-gradient(135deg, var(--champagne), var(--sand)); }
+        th {
+            padding: 18px 20px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--champagne);
+            font-size: 14px;
+        }
+        tbody tr:hover { background: var(--cream); }
+        .status-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .status-badge.pending { background: var(--warning); color: var(--espresso); }
+        .status-badge.confirmed { background: var(--success); color: #fff; }
+        .status-badge.completed { background: var(--sage); color: #fff; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 85px;
+                height: calc(100vh - 85px);
+                z-index: 99;
+                transition: left 0.3s;
+            }
+            .sidebar.open { left: 0; }
+            .main-content { padding: 20px; }
+            .customers-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .toolbar { flex-direction: column; align-items: stretch; }
+            .search-box input { width: 100%; }
+        }
+    </style>
 </head>
 <body>
 
-<header class="main-header">
-
-    <div class="logo">
-        Dear Self
-    </div>
-
-    <nav class="top-nav">
-        <a href="#">Feedback</a>
-        <a href="#">Contact Us</a>
-        <a href="#">About Us</a>
-        <a href="#">Home</a>
-
-                    <div class="profile">
-                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="profile">
-            </div>
+<header class="header">
+    <div class="logo" onclick="window.location.href='landingpage.html'">Dear Self</div>
+    <nav class="header-nav">
+        <a href="landingpage.html">Back to Home</a>
+        <a href="#" onclick="logout()">Logout</a>
+        <div class="profile" id="userProfile">
+            <span id="profileInitial">S</span>
+        </div>
     </nav>
-
 </header>
 
-<div class="dashboard">
-
+<div class="dashboard-layout">
     <!-- Sidebar -->
-    <aside class="sidebar">
-
-        <button class="menu-btn active">
-            View Booking Record
-        </button>
-
-        <button class="menu-btn">
-            View Feedback
-        </button>
-
-        <button class="menu-btn">
-            View Payment Record
-        </button>
-
-        <button class="menu-btn">
-            Chat Room
-        </button>
-
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-title">Staff Panel</div>
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active" data-view="appointments"><i class="fas fa-calendar-day"></i> Today's Appointments</a></li>
+            <li><a href="#" data-view="services"><i class="fas fa-spa"></i> All Bookings</a></li>
+            <li><a href="#" data-view="feedback"><i class="fas fa-comments"></i> Feedback</a></li>
+        </ul>
     </aside>
 
-    <!-- Content -->
-    <main class="content">
-
-        <div class="toolbar">
-
-            <span>Customer for Today!</span>
-
-            <div>
-                <input type="date">
-                <input type="text"
-                       id="searchInput"
-                       placeholder="Search Customer">
-            </div>
-
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome -->
+        <div class="welcome-section">
+            <h1 class="welcome-title">Welcome, <span id="userName">Staff Member</span>!</h1>
+            <p class="welcome-subtitle">Here's your schedule for today</p>
+            <p class="today-date" id="todayDate"></p>
         </div>
 
-        <table id="customerTable">
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-card-value" id="totalCustomers">0</div>
+                <div class="stat-card-label">Customers Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-value" id="completedServices">0</div>
+                <div class="stat-card-label">Completed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-value" id="pendingServices">0</div>
+                <div class="stat-card-label">Pending</div>
+            </div>
+        </div>
 
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Services</th>
-                    <th>Promos</th>
-                </tr>
-            </thead>
+        <!-- Appointments Section -->
+        <div id="appointments-section">
+            <h2 class="section-title">Today's Appointments</h2>
+            <div class="toolbar">
+                <div class="date-filter">
+                    <input type="date" class="date-input" id="dateFilter" onchange="filterByDate()">
+                </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search customer..." onkeyup="filterCustomers()">
+                </div>
+            </div>
 
-            <tbody>
-                <tr>
-                    <td>12345</td>
-                    <td>Rosa Mallister</td>
-                    <td>Pedicure and Hair</td>
-                    <td>NA</td>
-                </tr>
+            <div class="customers-grid" id="customersGrid">
+                <!-- Loaded dynamically -->
+            </div>
+        </div>
 
-                <tr>
-                    <td>67890</td>
-                    <td>Cirilla Meller</td>
-                    <td>Manicure and Hair</td>
-                    <td>Mother's Day Special (B)</td>
-                </tr>
+        <!-- All Bookings Section -->
+        <div id="services-section">
+            <h2 class="section-title">All Bookings</h2>
+            <div class="toolbar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="bookingSearch" placeholder="Search bookings..." onkeyup="filterBookings()">
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Services</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
 
-                <tr>
-                    <td>33312</td>
-                    <td>Laura Jones</td>
-                    <td>Massage and Hair</td>
-                    <td>NA</td>
-                </tr>
-
-                <tr>
-                    <td>76543</td>
-                    <td>Janette Clyne</td>
-                    <td>Massage, Hair and Nails</td>
-                    <td>Mother's Day Special (A)</td>
-                </tr>
-
-                <tr>
-                    <td>32321</td>
-                    <td>Claire Baron</td>
-                    <td>Hair and Massage</td>
-                    <td>NA</td>
-                </tr>
-            </tbody>
-
-        </table>
-
+        <!-- Feedback Section -->
+        <div id="feedback-section" style="display: none;">
+            <h2 class="section-title">Customer Feedback</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Rating</th>
+                            <th>Comment</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedbackTableBody"></tbody>
+                </table>
+            </div>
+        </div>
     </main>
-
 </div>
 
-<script src="../js/script.js"></script>
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
+<script>
+    const API_URL = 'http://localhost:3000/api';
+    let currentUser = null;
+    let todaysBookings = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        currentUser = JSON.parse(localStorage.getItem('dearself_user') || '{}');
+        if (currentUser.name) {
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('profileInitial').textContent = currentUser.name.charAt(0).toUpperCase();
+        }
+        const today = new Date();
+        document.getElementById('todayDate').textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('dateFilter').value = today.toISOString().split('T')[0];
+
+        loadTodaysAppointments();
+        initSidebarNavigation();
+    });
+
+    function initSidebarNavigation() {
+        const menuItems = document.querySelectorAll('.sidebar-menu a');
+        menuItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const view = item.dataset.view;
+                menuItems.forEach(m => m.classList.remove('active'));
+                item.classList.add('active');
+                showSection(view);
+            });
+        });
+    }
+
+    function showSection(view) {
+        ['appointments', 'services', 'feedback'].forEach(s => {
+            const el = document.getElementById(`${s}-section`);
+            if (el) el.style.display = s === view ? 'block' : 'none';
+        });
+        if (view === 'services') loadAllBookings();
+        if (view === 'feedback') loadFeedback();
+    }
+
+    async function loadTodaysAppointments() {
+        const today = new Date().toISOString().split('T')[0];
+        try {
+            const res = await fetch(`${API_URL}/bookings?date=${today}&staff_id=${currentUser.id}`);
+            const data = await res.json();
+            todaysBookings = data;
+            renderCustomers(data);
+            updateStats(data);
+        } catch (err) {
+            console.error('Failed to load appointments:', err);
+            renderEmptyState();
+        }
+    }
+
+    function updateStats(data) {
+        document.getElementById('totalCustomers').textContent = data.length;
+        document.getElementById('completedServices').textContent = data.filter(b => b.status === 'completed').length;
+        document.getElementById('pendingServices').textContent = data.filter(b => b.status === 'pending' || b.status === 'confirmed').length;
+    }
+
+    function renderCustomers(bookings) {
+        const grid = document.getElementById('customersGrid');
+        if (!bookings.length) {
+            grid.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>No Appointments Today</h3>
+                    <p>You have no scheduled appointments. Enjoy your day!</p>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = bookings.map(b => `
+            <div class="customer-card" data-id="${b.id}">
+                <div class="customer-card-header">
+                    <div class="customer-info">
+                        <h3>${b.customer?.name || 'Guest'}</h3>
+                        <p>${b.customer?.email || ''}</p>
+                    </div>
+                    <span class="customer-badge ${b.status === 'completed' ? 'vip' : 'regular'}">${b.status}</span>
+                </div>
+                <div class="customer-card-body">
+                    <div class="service-list">
+                        ${b.services?.map(s => `
+                            <div class="service-item">
+                                <span class="service-name">${s.services?.name || 'Service'}</span>
+                                <span class="service-price">${s.services?.price ? 'PHP ' + parseFloat(s.services.price).toLocaleString() : ''}</span>
+                            </div>
+                        `).join('') || '<div class="service-item"><span class="service-name">No services selected</span></div>'}
+                    </div>
+                    ${b.notes ? `<p style="font-size: 12px; color: var(--charcoal); margin-top: 10px;"><i class="fas fa-sticky-note"></i> ${b.notes}</p>` : ''}
+                </div>
+                <div class="customer-card-footer">
+                    <button class="btn btn-primary" onclick="markBookingComplete('${b.id}')" ${b.status === 'completed' ? 'disabled style="opacity: 0.5;"' : ''}>
+                        <i class="fas fa-check"></i> Complete
+                    </button>
+                    <button class="btn btn-secondary" onclick="viewBookingDetails('${b.id}')">
+                        <i class="fas fa-eye"></i> Details
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderEmptyState() {
+        const grid = document.getElementById('customersGrid');
+        grid.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+                <i class="fas fa-exclamation-circle"></i>
+                <h3>Unable to Load Appointments</h3>
+                <p>Please check your connection and try again.</p>
+            </div>
+        `;
+    }
+
+    async function loadAllBookings() {
+        try {
+            const res = await fetch(`${API_URL}/bookings`);
+            const data = await res.json();
+            const tbody = document.getElementById('bookingsTableBody');
+            tbody.innerHTML = data.map(b => `
+                <tr>
+                    <td>${b.id?.substring(0, 8) || '-'}</td>
+                    <td>${b.customer?.name || 'Guest'}</td>
+                    <td>${b.booking_date}</td>
+                    <td>${b.services?.map(s => s.services?.name).join(', ') || '-'}</td>
+                    <td><span class="status-badge ${b.status}">${b.status}</span></td>
+                    <td>
+                        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px;" onclick="markBookingComplete('${b.id}')">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        } catch (err) {
+            console.error('Failed to load bookings:', err);
+        }
+    }
+
+    async function loadFeedback() {
+        try {
+            const res = await fetch(`${API_URL}/feedback`);
+            const data = await res.json();
+            const tbody = document.getElementById('feedbackTableBody');
+            tbody.innerHTML = data.map(f => `
+                <tr>
+                    <td>${f.customer?.name || 'Anonymous'}</td>
+                    <td>${'★'.repeat(f.rating)}${'☆'.repeat(5 - f.rating)}</td>
+                    <td>${f.comment || '-'}</td>
+                    <td>${new Date(f.created_at).toLocaleDateString()}</td>
+                </tr>
+            `).join('');
+        } catch (err) {
+            console.error('Failed to load feedback:', err);
+        }
+    }
+
+    async function markBookingComplete(id) {
+        try {
+            await fetch(`${API_URL}/bookings/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'completed' })
+            });
+            showToast('Booking marked as complete');
+            loadTodaysAppointments();
+        } catch (err) {
+            showToast('Failed to update booking');
+        }
+    }
+
+    function viewBookingDetails(id) {
+        showToast('Details view coming soon');
+    }
+
+    function filterByDate() {
+        const date = document.getElementById('dateFilter').value;
+        // Reload with selected date
+        fetch(`${API_URL}/bookings?date=${date}&staff_id=${currentUser.id}`)
+            .then(res => res.json())
+            .then(data => {
+                todaysBookings = data;
+                renderCustomers(data);
+                updateStats(data);
+            })
+            .catch(err => console.error('Filter error:', err));
+    }
+
+    function filterCustomers() {
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = todaysBookings.filter(b =>
+            (b.customer?.name || '').toLowerCase().includes(search) ||
+            (b.services?.some(s => (s.services?.name || '').toLowerCase().includes(search)))
+        );
+        renderCustomers(filtered);
+    }
+
+    function filterBookings() {
+        const search = document.getElementById('bookingSearch').value.toLowerCase();
+        const rows = document.querySelectorAll('#bookingsTableBody tr');
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(search) ? '' : 'none';
+        });
+    }
+
+    function logout() {
+        localStorage.removeItem('dearself_user');
+        window.location.href = 'landingpage.html';
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+</script>
 </body>
+</html>
